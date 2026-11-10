@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#090a12">
+  <meta name="description" content="SOLO MUSIC — Your music. Your world. A personal space to play, explore and save the sounds you love.">
+  <title>SOLO MUSIC — Your Music. Your World.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="ambient ambient-one"></div><div class="ambient ambient-two"></div>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="brand" href="#" aria-label="Solo Music home"><span class="brand-mark">S</span><span>SOLO<span class="brand-light">MUSIC</span></span></a>
+      <div class="side-label">MENU</div>
+      <nav class="main-nav" aria-label="Main navigation">
+        <button class="nav-link active" data-view="home"><span class="nav-icon">⌂</span>Home</button>
+        <button class="nav-link" data-view="discover"><span class="nav-icon">✧</span>Discover</button>
+        <button class="nav-link" data-view="search"><span class="nav-icon">⌕</span>Search</button>
+      </nav>
+      <div class="side-label library-label">YOUR LIBRARY</div>
+      <nav class="main-nav" aria-label="Your library">
+        <button class="nav-link" data-view="favorites"><span class="nav-icon">♡</span>Liked songs</button>
+        <button class="nav-link" data-view="recent"><span class="nav-icon">◷</span>Recently played</button>
+        <button class="nav-link" data-view="playlists"><span class="nav-icon">▤</span>Playlists</button>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="sidebar-note"><span class="note-orb">♫</span><p>Your sound, your space.<br><span>Make it yours.</span></p></div>
+        <button class="upload-side" id="uploadSide">＋ Add your music</button>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <div class="mobile-brand"><span class="brand-mark">S</span><strong>SOLO MUSIC</strong></div>
+        <div class="history-controls"><button class="circle-btn" aria-label="Go back" id="backBtn">‹</button><button class="circle-btn" aria-label="Go forward" id="forwardBtn">›</button></div>
+        <div class="topbar-right"><span class="local-badge"><i></i> YOUR PERSONAL MUSIC SPACE</span><button class="profile-btn" title="Local listening session">S</button></div>
+      </header>
+
+      <section class="welcome-row">
+        <div><p class="eyebrow">A LITTLE SPACE FOR SOUND</p><h1 id="greeting">Your world.<br><span>Your music.</span></h1><p class="welcome-copy">Find your rhythm. Keep what you love.</p></div>
+        <div class="hero-art" aria-hidden="true"><div class="hero-ring ring-a"></div><div class="hero-ring ring-b"></div><div class="hero-disc"><span>♫</span></div><div class="hero-star star-a">✦</div><div class="hero-star star-b">✧</div></div>
+      </section>
+
+      <section class="quick-actions">
+        <button class="quick-card quick-purple" data-view="discover"><span class="quick-symbol">✧</span><span><b>Explore sounds</b><small>Find your next favourite</small></span><span class="quick-arrow">↗</span></button>
+        <button class="quick-card quick-blue" id="uploadMain"><span class="quick-symbol">＋</span><span><b>Bring your music</b><small>Play audio from your device</small></span><span class="quick-arrow">↗</span></button>
+        <button class="quick-card quick-pink" data-view="favorites"><span class="quick-symbol">♡</span><span><b>Your favourites</b><small>The songs you keep close</small></span><span class="quick-arrow">↗</span></button>
+      </section>
+
+      <section class="content-section" id="homeSection">
+        <div class="section-heading"><div><p class="eyebrow">MADE FOR YOUR MOMENT</p><h2>Choose your mood</h2></div><button class="text-link" data-view="discover">Explore all <span>↗</span></button></div>
+        <div class="mood-grid">
+          <button class="mood-card mood-chill" data-mood="Chill"><span class="mood-emoji">☁</span><b>Chill</b><small>Slow things down</small></button>
+          <button class="mood-card mood-focus" data-mood="Focus"><span class="mood-emoji">◉</span><b>Focus</b><small>Find your flow</small></button>
+          <button class="mood-card mood-energy" data-mood="Energy"><span class="mood-emoji">⚡</span><b>Energy</b><small>Feel the spark</small></button>
+          <button class="mood-card mood-dream" data-mood="Dream"><span class="mood-emoji">☾</span><b>Dream</b><small>Drift away</small></button>
+        </div>
+      </section>
+
+      <section class="content-section tracks-section">
+        <div class="section-heading"><div><p class="eyebrow">YOUR COLLECTION</p><h2 id="trackHeading">Your tracks</h2></div><button class="text-link" id="addTracks">＋ Add tracks</button></div>
+        <div class="empty-state" id="emptyState"><div class="empty-icon">♫</div><h3>Your music starts here</h3><p>Add audio files from your device to start listening. Your music stays in this browser session.</p><button class="primary-btn" id="emptyUpload">＋ Choose audio files</button><span class="tiny-note">MP3, WAV, OGG and other browser-supported audio</span></div>
+        <div class="track-list" id="trackList" hidden></div>
+      </section>
+
+      <section class="content-section bottom-section">
+        <div class="quote-card"><span class="quote-mark">“</span><div><p>Some feelings don't need words.<br>They need a soundtrack.</p><small>THE SOLO MUSIC THOUGHT</small></div><span class="quote-note">♫</span></div>
+      </section>
+      <footer>SOLO MUSIC <span>·</span> YOUR MUSIC. YOUR WORLD. <span class="footer-right">A personal listening space</span></footer>
+    </main>
+  </div>
+
+  <div class="player-bar">
+    <div class="now-playing"><div class="mini-cover" id="miniCover">♫</div><div class="now-meta"><b id="nowTitle">Nothing playing</b><span id="nowArtist">Add a track to begin</span></div><button class="like-btn" id="playerLike" aria-label="Like current track">♡</button></div>
+    <div class="player-center"><div class="player-controls"><button class="control-btn" id="prevBtn" aria-label="Previous track">|‹</button><button class="play-btn" id="playBtn" aria-label="Play">▶</button><button class="control-btn" id="nextBtn" aria-label="Next track">›|</button></div><div class="progress-row"><span id="currentTime">0:00</span><input type="range" id="seekBar" min="0" max="100" value="0" aria-label="Seek through track"><span id="duration">0:00</span></div></div>
+    <div class="player-extra"><span class="volume-icon">◖</span><input type="range" id="volumeBar" min="0" max="1" step="0.01" value="0.8" aria-label="Volume"><button class="queue-btn" id="queueBtn" title="Show queue">☷</button></div>
+  </div>
+
+  <input type="file" id="audioInput" accept="audio/*" multiple hidden>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <audio id="audioPlayer" preload="metadata"></audio>
+  <script src="script.js"></script>
+</body>
+</html>
