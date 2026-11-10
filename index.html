@@ -1,120 +1,102 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#08051b">
-  <meta name="description" content="SOLO MUSIC — Your Music. Your World.">
-  <title>SOLO MUSIC — Your Music. Your World.</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#121212">
+<meta name="description" content="SOLO MUSIC — Your Music. Your World.">
+<title>SOLO MUSIC — Your Music. Your World.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="app-shell">
-    <aside class="sidebar">
-      <a class="brand" href="#" aria-label="Solo Music home">
-        <span class="brand-mark" aria-hidden="true">♫</span>
-        <span class="brand-lockup"><b>SOLO MUSIC</b><small>Feel the Music ♬</small></span>
-      </a>
-      <nav class="main-nav" aria-label="Main navigation">
-        <button class="nav-link active" data-view="home"><span class="nav-icon">⌂</span>Home</button>
-        <button class="nav-link" data-view="discover"><span class="nav-icon">◉</span>Discover</button>
-        <button class="nav-link" data-view="search"><span class="nav-icon">⌕</span>Search</button>
-        <button class="nav-link" data-view="home"><span class="nav-icon">▥</span>Your Library</button>
-        <button class="nav-link" data-view="playlists"><span class="nav-icon">♫</span>Playlists</button>
-        <button class="nav-link" data-view="favorites"><span class="nav-icon">♥</span>Favorites</button>
-        <button class="nav-link" data-view="recent"><span class="nav-icon">⇩</span>Downloads</button>
-        <button class="nav-link" data-view="home"><span class="nav-icon">⚙</span>Settings</button>
-      </nav>
-      <div class="sidebar-bottom">
-        <div class="premium-card"><div class="crown">♛</div><b>Go Premium</b><p>Unlock more features<br>with Solo Music Premium!</p><button type="button" class="upgrade-btn" id="premiumInfo">Upgrade Now <span>→</span></button></div>
-        <div class="sidebar-equalizer" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+<div class="app-shell">
+  <aside class="sidebar">
+    <a class="brand" href="#" aria-label="SOLO MUSIC home"><span class="brand-mark">♫</span><b>SOLO MUSIC</b></a>
+    <nav class="main-nav" aria-label="Main navigation">
+      <button class="nav-link active" data-view="home"><span class="nav-icon">⌂</span>Home</button>
+      <button class="nav-link" data-view="search"><span class="nav-icon">⌕</span>Search</button>
+      <button class="nav-link" data-view="home"><span class="nav-icon">▤</span>Your Library</button>
+    </nav>
+    <div class="library-tools">
+      <div class="library-title"><b>Your Library</b><button id="createPlaylist" aria-label="Create playlist">＋</button></div>
+      <button class="library-filter active" data-view="playlists">Playlists</button>
+      <button class="library-filter" data-view="favorites">Liked Songs</button>
+      <button class="library-filter" data-view="recent">Recently Played</button>
+      <div class="library-shortcuts">
+        <button class="shortcut-row" data-view="favorites"><span class="shortcut-cover liked-cover">♥</span><span><b>Liked Songs</b><small id="statLiked">0 Songs</small></span></button>
+        <button class="shortcut-row" data-view="playlists"><span class="shortcut-cover chill-cover">♫</span><span><b>Chill Vibes</b><small>Playlist</small></span></button>
+        <button class="shortcut-row" data-view="playlists"><span class="shortcut-cover focus-cover">◉</span><span><b>Focus Flow</b><small>Playlist</small></span></button>
       </div>
-    </aside>
+    </div>
+    <div class="sidebar-bottom"><span>Made for your moments.</span><button id="premiumInfo">Explore Premium</button></div>
+  </aside>
 
-    <main class="main-content">
-      <header class="topbar">
-        <div class="mobile-brand"><span class="brand-mark">♫</span><b>SOLO MUSIC</b></div>
-        <div class="history-controls"><button class="circle-btn" id="backBtn" aria-label="Go home">‹</button><button class="circle-btn" id="forwardBtn" aria-label="Discover">›</button></div>
-        <label class="search-box"><span>⌕</span><input id="searchInput" type="search" placeholder="Search songs, artists, albums..." aria-label="Search your music"></label>
-        <div class="topbar-right"><button class="top-icon" id="themeBtn" aria-label="Appearance">☾</button><button class="top-icon notification-btn" id="notificationBtn" aria-label="Notifications">♧<i>3</i></button><button class="profile-btn" aria-label="Profile">S</button><span class="profile-chevron">⌄</span></div>
-      </header>
+  <main class="main-content">
+    <header class="topbar">
+      <div class="history-controls"><button class="circle-btn" id="backBtn" aria-label="Back">‹</button><button class="circle-btn" id="forwardBtn" aria-label="Forward">›</button></div>
+      <div class="mobile-brand"><span class="brand-mark">♫</span><b>SOLO MUSIC</b></div>
+      <label class="search-box"><span>⌕</span><input id="searchInput" type="search" placeholder="What do you want to play?" aria-label="Search your music"></label>
+      <div class="topbar-right"><button class="premium-link" id="notificationBtn">What's New</button><button class="profile-btn" aria-label="Profile">S</button></div>
+    </header>
 
-      <section class="hero-panel">
-        <div class="hero-bg-glow"></div>
-        <div class="hero-copy">
-          <h1>SOLO <em>MUSIC</em></h1>
-          <h2>Your Music. Your World.</h2>
-          <p>Stream <span>•</span> Discover <span>•</span> Feel the Beat</p>
-          <div class="hero-actions"><button class="primary-btn" id="heroUpload">▶ <span>Play Now</span></button><button class="secondary-btn" data-view="discover">Explore More <span>→</span></button></div>
-        </div>
-        <div class="hero-visual" aria-hidden="true"><div class="hero-person"></div><div class="hero-note note-one">♫</div><div class="hero-note note-two">♪</div><div class="hero-note note-three">♫</div><div class="hero-spark">✦</div></div>
-        <div class="hero-dots"><i class="selected"></i><i></i><i></i></div>
+    <div class="content-scroll">
+      <section class="welcome-row">
+        <div><p class="eyebrow">YOUR MUSIC. YOUR WORLD.</p><h1>Good music, good mood.</h1></div>
+        <button class="green-btn" id="heroUpload">▶ <span>Play music</span></button>
       </section>
 
-      <div class="dashboard-grid">
-        <div class="dashboard-main">
-          <section class="content-section trending-section">
-            <div class="section-heading"><h2><span>🔥</span> Trending Now</h2><button class="text-link" data-view="discover">See All →</button></div>
-            <div class="trending-grid">
-              <article class="music-card cover-one"><div class="cover-art"><span class="rank">#1</span><button class="cover-play" id="trendPlayOne" aria-label="Add music to play">▶</button></div><b>Kesariya</b><small>Arijit Singh</small></article>
-              <article class="music-card cover-two"><div class="cover-art"><span class="rank">#2</span><button class="cover-play" id="trendPlayTwo" aria-label="Add music to play">▶</button></div><b>52 Bars</b><small>Karan Aujla</small></article>
-              <article class="music-card cover-three"><div class="cover-art"><span class="rank">#3</span><button class="cover-play" id="trendPlayThree" aria-label="Add music to play">▶</button></div><b>Apna Bana Le</b><small>Arijit Singh</small></article>
-              <article class="music-card cover-four"><div class="cover-art"><span class="rank">#4</span><button class="cover-play" id="trendPlayFour" aria-label="Add music to play">▶</button></div><b>Humnava Mere</b><small>Jubin Nautiyal</small></article>
-              <article class="music-card cover-five"><div class="cover-art"><span class="rank">#5</span><button class="cover-play" id="trendPlayFive" aria-label="Add music to play">▶</button></div><b>Perfect</b><small>Ed Sheeran</small></article>
-            </div>
-          </section>
+      <section class="quick-grid" aria-label="Your shortcuts">
+        <button class="quick-tile" data-view="favorites"><span class="quick-art liked-cover">♥</span><b>Liked Songs</b><span class="quick-play">▶</span></button>
+        <button class="quick-tile" data-view="recent"><span class="quick-art recent-art">◷</span><b>Recently Played</b><span class="quick-play">▶</span></button>
+        <button class="quick-tile" data-view="playlists"><span class="quick-art chill-cover">♫</span><b>Chill Vibes</b><span class="quick-play">▶</span></button>
+        <button class="quick-tile" data-view="playlists"><span class="quick-art focus-cover">◉</span><b>Focus Flow</b><span class="quick-play">▶</span></button>
+      </section>
 
-          <section class="content-section mood-section" id="homeSection">
-            <div class="section-heading"><h2><span class="mood-heading-icon">♫</span> Mood Selection</h2><button class="text-link" data-view="discover">See All →</button></div>
-            <div class="mood-grid">
-              <button class="mood-card mood-chill" data-mood="Chill"><b>Chill</b><small>Relax &amp; Unwind</small><i>›</i></button>
-              <button class="mood-card mood-focus" data-mood="Focus"><b>Focus</b><small>Study &amp; Work</small><i>›</i></button>
-              <button class="mood-card mood-energy" data-mood="Energy"><b>Energy</b><small>Feel the Power</small><i>›</i></button>
-              <button class="mood-card mood-romantic" data-mood="Romantic"><b>Romantic</b><small>Love Forever</small><i>›</i></button>
-            </div>
-          </section>
-
-          <section class="content-section tracks-section">
-            <div class="section-heading"><h2 id="trackHeading">Your Music</h2><button class="text-link" id="addTracks">＋ Add tracks</button></div>
-            <div class="empty-state" id="emptyState"><div class="empty-art">♫</div><h3>Your music starts here</h3><p>Add audio files from your device to start listening.</p><button class="primary-btn" id="emptyUpload">Choose audio files</button></div>
-            <div class="track-list" id="trackList" hidden></div>
-          </section>
+      <section class="content-section trending-section">
+        <div class="section-heading"><h2>Made for your day</h2><button class="text-link" data-view="discover">Show all</button></div>
+        <div class="trending-grid">
+          <article class="music-card cover-one"><div class="cover-art"><button class="cover-play" id="trendPlayOne" aria-label="Play Kesariya">▶</button></div><b>Kesariya</b><small>Arijit Singh</small></article>
+          <article class="music-card cover-two"><div class="cover-art"><button class="cover-play" id="trendPlayTwo" aria-label="Play 52 Bars">▶</button></div><b>52 Bars</b><small>Karan Aujla</small></article>
+          <article class="music-card cover-three"><div class="cover-art"><button class="cover-play" id="trendPlayThree" aria-label="Play Apna Bana Le">▶</button></div><b>Apna Bana Le</b><small>Arijit Singh</small></article>
+          <article class="music-card cover-four"><div class="cover-art"><button class="cover-play" id="trendPlayFour" aria-label="Play Humnava Mere">▶</button></div><b>Humnava Mere</b><small>Jubin Nautiyal</small></article>
+          <article class="music-card cover-five"><div class="cover-art"><button class="cover-play" id="trendPlayFive" aria-label="Play Perfect">▶</button></div><b>Perfect</b><small>Ed Sheeran</small></article>
         </div>
+      </section>
 
-        <aside class="dashboard-side">
-          <section class="side-panel playlists-panel">
-            <div class="panel-heading"><h3>Your Playlists</h3><button class="text-link" data-view="playlists">See All →</button></div>
-            <div class="playlist-row"><div class="playlist-cover playlist-heart">♡</div><div><b>My Favorites</b><small id="statLiked">0 Songs</small></div><span class="more-dots">⋮</span></div>
-            <div class="playlist-row"><div class="playlist-cover playlist-chill">🌴</div><div><b>Chill Vibes</b><small>84 Songs</small></div><span class="more-dots">⋮</span></div>
-            <div class="playlist-row"><div class="playlist-cover playlist-work">◉</div><div><b>Workout Beats</b><small>67 Songs</small></div><span class="more-dots">⋮</span></div>
-            <div class="playlist-row"><div class="playlist-cover playlist-road">🚘</div><div><b>Road Trip</b><small>93 Songs</small></div><span class="more-dots">⋮</span></div>
-            <button class="create-playlist" id="createPlaylist">＋ <span>Create Playlist</span></button>
-          </section>
-          <section class="side-panel recent-panel">
-            <div class="panel-heading"><h3><span>◷</span> Recently Played</h3><button class="text-link" data-view="recent">See All →</button></div>
-            <div class="recent-row"><div class="recent-cover recent-one"></div><div><b>Kesariya</b><small>Arijit Singh</small></div><span class="playing-bars">▂▅▇</span></div>
-            <div class="recent-row"><div class="recent-cover recent-two">♫</div><div><b>Believer</b><small>Imagine Dragons</small></div><span class="more-dots">⋮</span></div>
-            <div class="recent-row"><div class="recent-cover recent-three">♫</div><div><b>Apna Bana Le</b><small>Arijit Singh</small></div><span class="more-dots">⋮</span></div>
-          </section>
-          <section class="side-panel library-panel"><div class="panel-heading"><h3>Your Library</h3><span class="panel-icon">▤</span></div><div class="stat-row"><span>Tracks added</span><b id="statTracks">0</b></div><div class="stat-row"><span>Liked songs</span><b id="statLikedCount">0</b></div><div class="library-progress"><span id="libraryProgress"></span></div></section>
-        </aside>
-      </div>
-      <footer><b>SOLO MUSIC</b><span>YOUR MUSIC. YOUR WORLD.</span><small>Made for your moments.</small></footer>
-    </main>
-  </div>
+      <section class="content-section mood-section" id="homeSection">
+        <div class="section-heading"><h2>Browse by mood</h2><button class="text-link" data-view="discover">Show all</button></div>
+        <div class="mood-grid">
+          <button class="mood-card mood-chill" data-mood="Chill"><b>Chill</b><small>Relax & unwind</small></button>
+          <button class="mood-card mood-focus" data-mood="Focus"><b>Focus</b><small>Study & work</small></button>
+          <button class="mood-card mood-energy" data-mood="Energy"><b>Energy</b><small>Feel the power</small></button>
+          <button class="mood-card mood-romantic" data-mood="Romantic"><b>Romantic</b><small>Love forever</small></button>
+        </div>
+      </section>
 
-  <nav class="mobile-nav" aria-label="Mobile navigation"><button class="active" data-view="home"><span>⌂</span>Home</button><button data-view="discover"><span>✧</span>Discover</button><button data-view="favorites"><span>♡</span>Liked</button><button data-view="recent"><span>◷</span>Recent</button></nav>
-  <div class="player-bar">
-    <div class="now-playing"><div class="mini-cover" id="miniCover">♫</div><div class="now-meta"><b id="nowTitle">Nothing playing</b><span id="nowArtist">Add a track to begin</span></div><button class="like-btn" id="playerLike" aria-label="Like current track">♡</button></div>
-    <div class="player-center"><div class="player-controls"><button class="control-btn" id="shuffleBtn" aria-label="Shuffle">⤨</button><button class="control-btn" id="prevBtn" aria-label="Previous track">|‹</button><button class="play-btn" id="playBtn" aria-label="Play">▶</button><button class="control-btn" id="nextBtn" aria-label="Next track">›|</button><button class="control-btn" id="repeatBtn" aria-label="Repeat">⟳</button></div><div class="progress-row"><span id="currentTime">0:00</span><input type="range" id="seekBar" min="0" max="100" value="0" aria-label="Seek through track"><span id="duration">0:00</span></div></div>
-    <div class="player-extra"><span class="volume-icon">◖</span><input type="range" id="volumeBar" min="0" max="1" step="0.01" value="0.8" aria-label="Volume"><button class="queue-btn" id="queueBtn" title="Show queue">☷</button><button class="expand-btn" id="expandBtn" aria-label="Expand player">⛶</button></div>
-  </div>
-  <input type="file" id="audioInput" accept="audio/*" multiple hidden>
-  <div class="toast" id="toast" role="status" aria-live="polite"></div>
-  <audio id="audioPlayer" preload="metadata"></audio>
-  <script src="script.js"></script>
+      <section class="content-section tracks-section">
+        <div class="section-heading"><h2 id="trackHeading">Your music</h2><button class="text-link" id="addTracks">＋ Add tracks</button></div>
+        <div class="empty-state" id="emptyState"><div class="empty-art">♫</div><h3>Your music starts here</h3><p>Add audio files from your device to start listening.</p><button class="green-btn" id="emptyUpload">Choose audio files</button></div>
+        <div class="track-list" id="trackList" hidden></div>
+      </section>
+
+      <section class="library-panel"><div class="section-heading"><h2>Your library</h2></div><div class="stat-row"><span>Tracks added</span><b id="statTracks">0</b></div><div class="stat-row"><span>Liked songs</span><b id="statLikedCount">0</b></div><div class="library-progress"><span id="libraryProgress"></span></div></section>
+      <footer><b>SOLO MUSIC</b><span>YOUR MUSIC. YOUR WORLD.</span></footer>
+    </div>
+  </main>
+</div>
+
+<nav class="mobile-nav" aria-label="Mobile navigation"><button class="active" data-view="home"><span>⌂</span>Home</button><button data-view="search"><span>⌕</span>Search</button><button data-view="favorites"><span>♥</span>Liked</button><button data-view="recent"><span>◷</span>Recent</button></nav>
+<div class="player-bar">
+  <div class="now-playing"><div class="mini-cover" id="miniCover">♫</div><div class="now-meta"><b id="nowTitle">Nothing playing</b><span id="nowArtist">Add a track to begin</span></div><button class="like-btn" id="playerLike" aria-label="Like current track">♡</button></div>
+  <div class="player-center"><div class="player-controls"><button class="control-btn" id="shuffleBtn" aria-label="Shuffle">⤨</button><button class="control-btn" id="prevBtn" aria-label="Previous track">|‹</button><button class="play-btn" id="playBtn" aria-label="Play">▶</button><button class="control-btn" id="nextBtn" aria-label="Next track">›|</button><button class="control-btn" id="repeatBtn" aria-label="Repeat">⟳</button></div><div class="progress-row"><span id="currentTime">0:00</span><input type="range" id="seekBar" min="0" max="100" value="0" aria-label="Seek through track"><span id="duration">0:00</span></div></div>
+  <div class="player-extra"><span class="volume-icon">◖</span><input type="range" id="volumeBar" min="0" max="1" step="0.01" value="0.8" aria-label="Volume"><button class="queue-btn" id="queueBtn" title="Show queue">☷</button><button class="expand-btn" id="expandBtn" aria-label="Expand player">⛶</button></div>
+</div>
+<input type="file" id="audioInput" accept="audio/*" multiple hidden>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<audio id="audioPlayer" preload="metadata"></audio>
+<script src="script.js"></script>
 </body>
 </html>
