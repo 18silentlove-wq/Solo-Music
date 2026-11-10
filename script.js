@@ -62,12 +62,12 @@
   function currentList() {
     if(activeView==="favorites") return tracks.filter(t=>t.liked);
     if(activeView==="recent") return recent.map(t=>tracks.find(x=>x.id===t)).filter(Boolean);
-    if(activeView==="search") { const q=$("searchInput").value.trim().toLowerCase(); return tracks.filter(t=>t.name.toLowerCase().includes(q)); }
+    if(activeView==="search") { const q=$("searchInput").value.trim().toLowerCase(); return tracks.filter(t=>(t.name+" "+t.artist).toLowerCase().includes(q)); }
     return tracks;
   }
   function renderEmpty(empty) {
     const content={
-      favorites:['♡','YOUR PERSONAL COLLECTION','No liked songs yet.','Tap the heart beside a track to save it here.'],
+      favorites:['♥','LIKED SONGS','Your favourites live here.','Tap the heart beside any song to add it to this collection.'],
       recent:['◷','YOUR LISTENING JOURNEY','Nothing played yet.','Tracks you listen to will appear here.'],
       playlists:['▤','PLAYLISTS','Playlist tools are not ready yet.','You can add audio files and save liked songs for now.'],
       search:['⌕','SEARCH YOUR LIBRARY','No matching tracks.','Try another title or add audio files from your device.'],
@@ -153,7 +153,7 @@
     if(scroll) scroll.scrollTo({top:0,behavior:"smooth"});
     renderTracks();
   }
-  document.querySelectorAll("[data-view]").forEach(b=>b.addEventListener("click",()=>showView(b.dataset.view)));
+  document.querySelectorAll("[data-view]").forEach(b=>b.addEventListener("click",e=>{e.preventDefault();showView(b.dataset.view);}));
   document.querySelectorAll("[data-mood]").forEach(b=>b.addEventListener("click",()=>{showView("discover");toast(b.dataset.mood+" mood selected.");}));
   ["heroUpload","emptyUpload","addTracks"].forEach(id=>{const b=$(id);if(b)b.addEventListener("click",()=>input.click());});
   input.addEventListener("change",e=>{addFiles(e.target.files);input.value="";});
@@ -179,6 +179,6 @@
   $("repeatBtn").addEventListener("click",()=>toast("Repeat is coming in a future update."));
   $("expandBtn").addEventListener("click",()=>toast("Expanded player is coming in a future update."));
   ["trendPlayOne","trendPlayTwo","trendPlayThree","trendPlayFour","trendPlayFive"].forEach(id=>$(id).addEventListener("click",()=>toast("These are visual examples. Add your own audio files to play music.")));
-  renderTracks();setCurrentUI(false);
+  showView("home");setCurrentUI(false);
   loadSavedTracks().catch(()=>toast("Device library storage is blocked. You can still choose files for this session."));
 })();
