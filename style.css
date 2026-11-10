@@ -143,3 +143,5 @@ button:focus-visible,input:focus-visible{outline:2px solid #fff;outline-offset:3
 .row-remove:hover{color:#ff7777}
 .track-row .row-play,.track-row .row-like,.track-row .row-remove{min-height:34px}
 @media(max-width:760px){.track-row{grid-template-columns:38px minmax(0,1fr) 30px 30px 24px;gap:7px;padding:7px 5px}.track-cover{width:36px;height:36px}.row-remove{font-size:20px}}
+
+.library-note{margin:-7px 0 14px;color:#999;font-size:11px;line-height:1.5}
