@@ -18,7 +18,7 @@
     <nav class="main-nav" aria-label="Main navigation">
       <button class="nav-link active" data-view="home"><span class="nav-icon">⌂</span>Home</button>
       <button class="nav-link" data-view="search"><span class="nav-icon">⌕</span>Search</button>
-      <button class="nav-link" data-view="home"><span class="nav-icon">▤</span>Your Library</button>
+      <button class="nav-link" data-view="library"><span class="nav-icon">▤</span>Your Library</button>
     </nav>
     <div class="library-tools">
       <div class="library-title"><b>Your Library</b><button id="createPlaylist" aria-label="Create playlist">＋</button></div>
@@ -43,19 +43,19 @@
     </header>
 
     <div class="content-scroll">
-      <section class="welcome-row">
+      <section class="welcome-row" data-section="home">
         <div><p class="eyebrow">YOUR MUSIC. YOUR WORLD.</p><h1>Good music, good mood.</h1></div>
         <button class="green-btn" id="heroUpload">▶ <span>Play music</span></button>
       </section>
 
-      <section class="quick-grid" aria-label="Your shortcuts">
+      <section class="quick-grid" data-section="home" aria-label="Your shortcuts">
         <button class="quick-tile" data-view="favorites"><span class="quick-art liked-cover">♥</span><b>Liked Songs</b><span class="quick-play">▶</span></button>
         <button class="quick-tile" data-view="recent"><span class="quick-art recent-art">◷</span><b>Recently Played</b><span class="quick-play">▶</span></button>
         <button class="quick-tile" data-view="playlists"><span class="quick-art chill-cover">♫</span><b>Chill Vibes</b><span class="quick-play">▶</span></button>
         <button class="quick-tile" data-view="playlists"><span class="quick-art focus-cover">◉</span><b>Focus Flow</b><span class="quick-play">▶</span></button>
       </section>
 
-      <section class="content-section trending-section">
+      <section class="content-section trending-section" data-section="home discover">
         <div class="section-heading"><h2>Made for your day</h2><button class="text-link" data-view="discover">Show all</button></div>
         <div class="trending-grid">
           <article class="music-card cover-one"><div class="cover-art"><button class="cover-play" id="trendPlayOne" aria-label="Play Kesariya">▶</button></div><b>Kesariya</b><small>Arijit Singh</small></article>
@@ -66,7 +66,7 @@
         </div>
       </section>
 
-      <section class="content-section mood-section" id="homeSection">
+      <section class="content-section mood-section" id="homeSection" data-section="home discover">
         <div class="section-heading"><h2>Browse by mood</h2><button class="text-link" data-view="discover">Show all</button></div>
         <div class="mood-grid">
           <button class="mood-card mood-chill" data-mood="Chill"><b>Chill</b><small>Relax & unwind</small></button>
@@ -76,14 +76,14 @@
         </div>
       </section>
 
-      <section class="content-section tracks-section">
+      <section class="content-section tracks-section" data-section="library favorites recent playlists search">
         <div class="section-heading"><h2 id="trackHeading">Your music</h2><button class="text-link" id="addTracks">＋ Add music</button></div><p class="library-note">Choose audio files from your phone. Your library is saved in this browser on this device; files are not uploaded.</p>
         <div class="empty-state" id="emptyState"><div class="empty-art">♫</div><h3>Your music starts here</h3><p>Add audio files from your device to start listening.</p><button class="green-btn" id="emptyUpload">Choose audio files</button></div>
         <div class="track-list" id="trackList" hidden></div>
       </section>
 
-      <section class="library-panel"><div class="section-heading"><h2>Your library</h2></div><div class="stat-row"><span>Tracks added</span><b id="statTracks">0</b></div><div class="stat-row"><span>Liked songs</span><b id="statLikedCount">0</b></div><div class="library-progress"><span id="libraryProgress"></span></div></section>
-      <footer><b>SOLO MUSIC</b><span>YOUR MUSIC. YOUR WORLD.</span></footer>
+      <section class="library-panel" data-section="library"><div class="section-heading"><h2>Your library</h2></div><div class="stat-row"><span>Tracks added</span><b id="statTracks">0</b></div><div class="stat-row"><span>Liked songs</span><b id="statLikedCount">0</b></div><div class="library-progress"><span id="libraryProgress"></span></div></section>
+      <footer data-section="home"><b>SOLO MUSIC</b><span>YOUR MUSIC. YOUR WORLD.</span></footer>
     </div>
   </main>
 </div>
