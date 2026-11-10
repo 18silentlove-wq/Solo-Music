@@ -140,14 +140,21 @@
     renderTracks();setCurrentUI(false);toast("Track removed from your library.");
   }
   function showView(view) {
-    activeView=view;setNavActive(view);
-    $("trackHeading").textContent=({favorites:"Liked songs",recent:"Recently played",playlists:"Your playlists",search:"Search your tracks",discover:"Discover"}[view]||"Your music");
-    if(view==="home")$("homeSection").scrollIntoView({behavior:"smooth",block:"nearest"});
-    else document.querySelector(".tracks-section").scrollIntoView({behavior:"smooth",block:"start"});
+    activeView=view;
+    setNavActive(view);
+    const labels={home:"Your music",library:"Your library",favorites:"Liked songs",recent:"Recently played",playlists:"Your playlists",search:"Search your tracks",discover:"Discover"};
+    $("trackHeading").textContent=labels[view]||"Your music";
+    document.querySelectorAll("[data-section]").forEach(section=>{
+      const allowed=(section.dataset.section||"").split(/\\s+/);
+      section.hidden=!allowed.includes(view);
+    });
+    if(view==="search") $("searchInput").focus({preventScroll:true});
+    const scroll=document.querySelector(".content-scroll");
+    if(scroll) scroll.scrollTo({top:0,behavior:"smooth"});
     renderTracks();
   }
   document.querySelectorAll("[data-view]").forEach(b=>b.addEventListener("click",()=>showView(b.dataset.view)));
-  document.querySelectorAll("[data-mood]").forEach(b=>b.addEventListener("click",()=>{toast(b.dataset.mood+" mood selected. Mood playlists are not connected yet.");}));
+  document.querySelectorAll("[data-mood]").forEach(b=>b.addEventListener("click",()=>{showView("discover");toast(b.dataset.mood+" mood selected.");}));
   ["heroUpload","emptyUpload","addTracks"].forEach(id=>{const b=$(id);if(b)b.addEventListener("click",()=>input.click());});
   input.addEventListener("change",e=>{addFiles(e.target.files);input.value="";});
   $("searchInput").addEventListener("input",()=>{activeView="search";setNavActive("search");$("trackHeading").textContent="Search your tracks";renderTracks();});
