@@ -157,7 +157,7 @@
   document.querySelectorAll("[data-mood]").forEach(b=>b.addEventListener("click",()=>{showView("discover");toast(b.dataset.mood+" mood selected.");}));
   ["heroUpload","emptyUpload","addTracks"].forEach(id=>{const b=$(id);if(b)b.addEventListener("click",()=>input.click());});
   input.addEventListener("change",e=>{addFiles(e.target.files);input.value="";});
-  $("searchInput").addEventListener("input",()=>{activeView="search";setNavActive("search");$("trackHeading").textContent="Search your tracks";renderTracks();});
+  $("searchInput").addEventListener("input",()=>{const first=activeView!=="search";activeView="search";setNavActive("search");$("trackHeading").textContent="Search your tracks";document.querySelectorAll("[data-section]").forEach(section=>{section.hidden=!(section.dataset.section||"").split(/\\s+/).includes("search");});if(first)document.querySelector(".content-scroll").scrollTo({top:0,behavior:"smooth"});renderTracks();});
   $("searchInput").addEventListener("keydown",e=>{if(e.key==="Enter")showView("search");});
   $("heroUpload").querySelector("span").textContent="Add music";
   $("playBtn").addEventListener("click",togglePlayback);
