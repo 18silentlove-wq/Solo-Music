@@ -1,266 +1,177 @@
 (() => {
   const $ = id => document.getElementById(id);
-  const audio = $("audioPlayer");
-  const input = $("audioInput");
-  const tracks = [];
-  const recent = [];
-  let currentIndex = -1;
-  let activeView = "home";
-  let toastTimer;
-  const formatTime = seconds => {
-    if (!Number.isFinite(seconds)) return "0:00";
-    return Math.floor(seconds / 60) + ":" + Math.floor(seconds % 60).toString().padStart(2, "0");
-  };
+  const audio = $("audioPlayer"), input = $("audioInput");
+  const tracks = [], recent = [];
+  let currentIndex = -1, activeView = "home", toastTimer;
+  const DB_NAME = "solo-music-library", STORE = "tracks";
+  const formatTime = n => Number.isFinite(n) ? Math.floor(n/60)+":"+Math.floor(n%60).toString().padStart(2,"0") : "0:00";
   function toast(message) {
-    const el = $("toast");
-    el.textContent = message;
-    el.classList.add("show");
-    clearTimeout(toastTimer);
-    toastTimer = setTimeout(() => el.classList.remove("show"), 2600);
+    const el=$("toast"); el.textContent=message; el.classList.add("show");
+    clearTimeout(toastTimer); toastTimer=setTimeout(()=>el.classList.remove("show"),3000);
+  }
+  function openDB() {
+    return new Promise((resolve,reject)=>{
+      if (!("indexedDB" in window)) return reject(new Error("Storage is unavailable in this browser."));
+      const req=indexedDB.open(DB_NAME,1);
+      req.onupgradeneeded=()=>{ if(!req.result.objectStoreNames.contains(STORE)) req.result.createObjectStore(STORE,{keyPath:"id",autoIncrement:true}); };
+      req.onsuccess=()=>resolve(req.result); req.onerror=()=>reject(req.error);
+    });
+  }
+  async function saveTrack(track) {
+    const db=await openDB();
+    return new Promise((resolve,reject)=>{
+      const tx=db.transaction(STORE,"readwrite"), req=tx.objectStore(STORE).add({name:track.name,artist:track.artist,liked:track.liked,file:track.file,addedAt:Date.now()});
+      req.onsuccess=()=>resolve(req.result); req.onerror=()=>reject(req.error); tx.oncomplete=()=>db.close(); tx.onerror=()=>{db.close();reject(tx.error);};
+    });
+  }
+  async function loadSavedTracks() {
+    const db=await openDB();
+    const saved=await new Promise((resolve,reject)=>{
+      const tx=db.transaction(STORE,"readonly"), req=tx.objectStore(STORE).getAll();
+      req.onsuccess=()=>resolve(req.result); req.onerror=()=>reject(req.error); tx.oncomplete=()=>db.close();
+    });
+    saved.sort((a,b)=>a.addedAt-b.addedAt).forEach(item=>tracks.push({...item,url:URL.createObjectURL(item.file)}));
+    renderTracks(); updateStats();
+    if(tracks.length) toast(tracks.length+" saved track(s) restored from this device.");
+  }
+  async function updateSavedTrack(track) {
+    if(track.id==null) return;
+    const db=await openDB();
+    await new Promise((resolve,reject)=>{
+      const tx=db.transaction(STORE,"readwrite"); tx.objectStore(STORE).put({id:track.id,name:track.name,artist:track.artist,liked:track.liked,file:track.file,addedAt:track.addedAt});
+      tx.oncomplete=()=>{db.close();resolve();}; tx.onerror=()=>{db.close();reject(tx.error);};
+    });
+  }
+  async function deleteSavedTrack(track) {
+    if(track.id==null) return;
+    const db=await openDB();
+    await new Promise((resolve,reject)=>{
+      const tx=db.transaction(STORE,"readwrite"); tx.objectStore(STORE).delete(track.id);
+      tx.oncomplete=()=>{db.close();resolve();}; tx.onerror=()=>{db.close();reject(tx.error);};
+    });
   }
   function updateStats() {
-    $("statTracks").textContent = tracks.length;
-    const likedCount = tracks.filter(track => track.liked).length;
-    $("statLiked").textContent = likedCount + " Songs";
-    const likedCountLabel = $("statLikedCount");
-    if (likedCountLabel) likedCountLabel.textContent = likedCount;
-    $("libraryProgress").style.width = Math.min(100, tracks.length * 10) + "%";
-  }
-  function currentList() {
-    if (activeView === "favorites") return tracks.filter(track => track.liked);
-    if (activeView === "recent") return recent.map(i => tracks[i]).filter(Boolean);
-    if (activeView === "search") return tracks.filter(track => track.name.toLowerCase().includes($("searchInput").value.trim().toLowerCase()));
-    return tracks;
-  }
-  function renderTracks(list = currentList()) {
-    const container = $("trackList");
-    const empty = $("emptyState");
-    container.innerHTML = "";
-    if (!list.length) {
-      container.hidden = true;
-      empty.hidden = false;
-      if (activeView === "favorites") {
-        $("trackHeading").textContent = "Liked songs";
-        empty.innerHTML = '<div class="empty-art"><span>♡</span><i>✦</i></div><p class="empty-kicker">YOUR PERSONAL COLLECTION</p><h3>No favourites yet.</h3><p>Tap the heart beside any track to keep it close. Your liked songs will appear here.</p>';
-      } else if (activeView === "recent") {
-        empty.innerHTML = '<div class="empty-art"><span>◷</span><i>✦</i></div><p class="empty-kicker">YOUR LISTENING JOURNEY</p><h3>Your story starts with a song.</h3><p>Tracks you play will show up here, ready for another listen.</p>';
-      } else if (activeView === "playlists") {
-        empty.innerHTML = '<div class="empty-art"><span>▤</span><i>✦</i></div><p class="empty-kicker">COMING IN A FUTURE UPDATE</p><h3>Your playlists are on the way.</h3><p>Playlist creation is not available in this first version. For now, add tracks and save your favourites.</p>';
-      } else if (activeView === "search") {
-        empty.innerHTML = '<div class="empty-art"><span>⌕</span><i>✦</i></div><p class="empty-kicker">SEARCH YOUR COLLECTION</p><h3>No matching tracks.</h3><p>Try another title, or add audio files to your collection.</p>';
-      } else {
-        empty.innerHTML = '<div class="empty-art"><span>♫</span><i>✦</i></div><p class="empty-kicker">THE FIRST NOTE IS YOURS</p><h3>Your music starts here.</h3><p>Add audio files from your device and build a listening space that feels like you. Nothing gets uploaded.</p><button class="primary-btn" id="emptyUpload">Choose audio files <span>↗</span></button><span class="tiny-note">MP3 · WAV · OGG · browser-supported audio</span>';
-        $("emptyUpload").addEventListener("click", () => input.click());
-      }
-      updateStats();
-      return;
-    }
-    empty.hidden = true;
-    container.hidden = false;
-    list.forEach(track => {
-      const index = tracks.indexOf(track);
-      const row = document.createElement("div");
-      row.className = "track-row" + (index === currentIndex ? " is-playing" : "");
-      const cover = document.createElement("div");
-      cover.className = "track-cover";
-      cover.textContent = "♫";
-      const info = document.createElement("div");
-      info.className = "track-info";
-      const title = document.createElement("b");
-      title.textContent = track.name;
-      const artist = document.createElement("span");
-      artist.textContent = track.artist;
-      info.append(title, artist);
-      const play = document.createElement("button");
-      play.className = "row-play";
-      play.type = "button";
-      play.setAttribute("aria-label", "Play " + track.name);
-      play.textContent = index === currentIndex && !audio.paused ? "Ⅱ" : "▶";
-      play.addEventListener("click", () => index === currentIndex ? togglePlayback() : playTrack(index));
-      const like = document.createElement("button");
-      like.className = "row-like" + (track.liked ? " liked" : "");
-      like.type = "button";
-      like.setAttribute("aria-label", track.liked ? "Remove from liked songs" : "Like song");
-      like.textContent = track.liked ? "♥" : "♡";
-      like.addEventListener("click", () => {
-        track.liked = !track.liked;
-        updateStats();
-        renderTracks();
-      });
-      row.append(cover, info, play, like);
-      container.appendChild(row);
-    });
-    updateStats();
-  }
-  function setCurrentUI() {
-    const track = tracks[currentIndex];
-    if (!track) {
-      $("nowTitle").textContent = "Nothing playing";
-      $("nowArtist").textContent = "Add a track to begin";
-      $("miniCover").textContent = "♫";
-      $("playerLike").textContent = "♡";
-      $("playerLike").classList.remove("liked");
-      $("playBtn").textContent = "▶";
-      $("playBtn").setAttribute("aria-label", "Play");
-      return;
-    }
-    $("nowTitle").textContent = track.name;
-    $("nowArtist").textContent = track.artist;
-    $("miniCover").textContent = "♫";
-    $("playerLike").textContent = track.liked ? "♥" : "♡";
-    $("playerLike").classList.toggle("liked", track.liked);
-    $("playBtn").textContent = audio.paused ? "▶" : "Ⅱ";
-    $("playBtn").setAttribute("aria-label", audio.paused ? "Play" : "Pause");
-    updateStats();
-    if (activeView !== "search") renderTracks();
-  }
-  async function playTrack(index) {
-    if (index < 0 || index >= tracks.length) return;
-    currentIndex = index;
-    recent.unshift(index);
-    while (recent.length > 30) recent.pop();
-    audio.src = tracks[index].url;
-    setCurrentUI();
-    try {
-      await audio.play();
-      setCurrentUI();
-    } catch (error) {
-      toast("Tap play to start listening.");
-    }
-  }
-  function togglePlayback() {
-    if (currentIndex < 0) {
-      if (tracks.length) playTrack(0);
-      else toast("Add audio files from your device to begin.");
-      return;
-    }
-    if (audio.paused) audio.play().then(setCurrentUI).catch(() => toast("Could not play this audio file."));
-    else audio.pause();
-    setCurrentUI();
-  }
-  function addFiles(files) {
-    const audioFiles = Array.from(files || []).filter(file => file.type.startsWith("audio/"));
-    if (!audioFiles.length) {
-      toast("Please choose audio files.");
-      return;
-    }
-    audioFiles.forEach(file => tracks.push({
-      name: file.name.replace(/\.[^/.]+$/, ""),
-      artist: "From your device",
-      url: URL.createObjectURL(file),
-      liked: false
-    }));
-    $("trackHeading").textContent = "Your tracks (" + tracks.length + ")";
-    activeView = "home";
-    setNavActive("home");
-    renderTracks(tracks);
-    toast(audioFiles.length + (audioFiles.length === 1 ? " track added" : " tracks added"));
-    if (currentIndex === -1) playTrack(0);
+    $("statTracks").textContent=tracks.length;
+    const liked=tracks.filter(t=>t.liked).length;
+    $("statLiked").textContent=liked+" Songs"; $("statLikedCount").textContent=liked;
+    $("libraryProgress").style.width=Math.min(100,tracks.length*10)+"%";
   }
   function setNavActive(view) {
-    document.querySelectorAll("[data-view]").forEach(btn => btn.classList.toggle("active", btn.dataset.view === view));
+    document.querySelectorAll("[data-view]").forEach(b=>b.classList.toggle("active",b.dataset.view===view));
+  }
+  function currentList() {
+    if(activeView==="favorites") return tracks.filter(t=>t.liked);
+    if(activeView==="recent") return recent.map(t=>tracks.find(x=>x.id===t)).filter(Boolean);
+    if(activeView==="search") { const q=$("searchInput").value.trim().toLowerCase(); return tracks.filter(t=>t.name.toLowerCase().includes(q)); }
+    return tracks;
+  }
+  function renderEmpty(empty) {
+    const content={
+      favorites:['♡','YOUR PERSONAL COLLECTION','No liked songs yet.','Tap the heart beside a track to save it here.'],
+      recent:['◷','YOUR LISTENING JOURNEY','Nothing played yet.','Tracks you listen to will appear here.'],
+      playlists:['▤','PLAYLISTS','Playlist tools are not ready yet.','You can add audio files and save liked songs for now.'],
+      search:['⌕','SEARCH YOUR LIBRARY','No matching tracks.','Try another title or add audio files from your device.'],
+      home:['♫','YOUR PERSONAL MUSIC LIBRARY','Your music starts here.','Choose audio files from your phone. They stay in this browser on this device.']
+    };
+    const c=content[activeView]||content.home;
+    empty.innerHTML='<div class="empty-art">'+c[0]+'</div><p class="empty-kicker">'+c[1]+'</p><h3>'+c[2]+'</h3><p>'+c[3]+'</p>'+(activeView==="home"?'<button class="green-btn" id="emptyUpload">Choose audio files</button><span class="tiny-note">MP3, M4A, AAC, WAV, OGG and other browser-supported audio</span>':'');
+    const btn=$("emptyUpload"); if(btn) btn.addEventListener("click",()=>input.click());
+  }
+  function renderTracks(list=currentList()) {
+    const box=$("trackList"), empty=$("emptyState"); box.replaceChildren();
+    if(!list.length){box.hidden=true;empty.hidden=false;renderEmpty(empty);updateStats();return;}
+    empty.hidden=true;box.hidden=false;
+    list.forEach(track=>{
+      const index=tracks.indexOf(track), row=document.createElement("div");
+      row.className="track-row"+(index===currentIndex?" is-playing":"");
+      const cover=document.createElement("div"); cover.className="track-cover"; cover.textContent="♫";
+      const info=document.createElement("div"); info.className="track-info";
+      const title=document.createElement("b"); title.textContent=track.name;
+      const artist=document.createElement("span"); artist.textContent=track.artist;
+      info.append(title,artist);
+      const play=document.createElement("button"); play.className="row-play"; play.type="button"; play.textContent=index===currentIndex&&!audio.paused?"Ⅱ":"▶"; play.setAttribute("aria-label","Play "+track.name);
+      play.addEventListener("click",()=>index===currentIndex?togglePlayback():playTrack(index));
+      const like=document.createElement("button"); like.className="row-like"+(track.liked?" liked":""); like.type="button"; like.textContent=track.liked?"♥":"♡"; like.setAttribute("aria-label",track.liked?"Unlike":"Like");
+      like.addEventListener("click",async()=>{track.liked=!track.liked;try{await updateSavedTrack(track);}catch(e){toast("Could not save this change.");}renderTracks();setCurrentUI(false);});
+      const remove=document.createElement("button"); remove.className="row-remove"; remove.type="button"; remove.textContent="×"; remove.title="Remove from library"; remove.setAttribute("aria-label","Remove "+track.name);
+      remove.addEventListener("click",()=>removeTrack(index));
+      row.append(cover,info,play,like,remove); box.append(row);
+    });
+    updateStats();
+  }
+  function setCurrentUI(render=true) {
+    const t=tracks[currentIndex];
+    $("nowTitle").textContent=t?t.name:"Nothing playing";
+    $("nowArtist").textContent=t?t.artist:"Choose a track to begin";
+    $("playerLike").textContent=t&&t.liked?"♥":"♡"; $("playerLike").classList.toggle("liked",!!(t&&t.liked));
+    $("playBtn").textContent=t&&!audio.paused?"Ⅱ":"▶"; $("playBtn").setAttribute("aria-label",t&&!audio.paused?"Pause":"Play");
+    updateStats(); if(render) renderTracks();
+  }
+  async function playTrack(index) {
+    if(index<0||index>=tracks.length)return;
+    currentIndex=index; const t=tracks[index]; recent.unshift(t.id); if(recent.length>40)recent.pop();
+    audio.src=t.url; setCurrentUI();
+    try{await audio.play();setCurrentUI();}catch(e){toast("This file could not be played. Try another audio format.");}
+  }
+  function togglePlayback() {
+    if(currentIndex<0){if(tracks.length)playTrack(0);else input.click();return;}
+    if(audio.paused)audio.play().then(()=>setCurrentUI()).catch(()=>toast("Could not play this audio file."));
+    else audio.pause();
+  }
+  async function addFiles(fileList) {
+    const files=Array.from(fileList||[]), valid=files.filter(f=>f.type.startsWith("audio/")||/\.(mp3|m4a|aac|wav|ogg|flac|opus|weba)$/i.test(f.name));
+    if(!valid.length){toast("No supported audio files selected. Choose an audio file.");return;}
+    let added=0, failed=0;
+    for(const file of valid){
+      const track={name:file.name.replace(/\.[^/.]+$/,""),artist:"On this device",file,liked:false,addedAt:Date.now()};
+      try{track.id=await saveTrack(track);track.url=URL.createObjectURL(file);tracks.push(track);added++;}
+      catch(e){failed++;if(track.url)URL.revokeObjectURL(track.url);}
+    }
+    activeView="home";setNavActive("home");$("trackHeading").textContent="Your music ("+tracks.length+")";renderTracks(tracks);
+    if(added){toast(added+" track(s) added and saved on this device.");if(currentIndex<0)playTrack(0);}
+    if(failed)toast(added+" saved; "+failed+" could not be saved. Check browser storage space/settings.");
+  }
+  async function removeTrack(index) {
+    const t=tracks[index]; if(!t)return;
+    if(index===currentIndex){audio.pause();audio.removeAttribute("src");audio.load();currentIndex=-1;}
+    try{await deleteSavedTrack(t);}catch(e){toast("Could not remove this track from device storage.");return;}
+    URL.revokeObjectURL(t.url); tracks.splice(index,1);
+    if(currentIndex>index)currentIndex--;
+    renderTracks();setCurrentUI(false);toast("Track removed from your library.");
   }
   function showView(view) {
-    activeView = view;
-    setNavActive(view);
-    const heading = $("trackHeading");
-    if (view === "favorites") heading.textContent = "Liked songs";
-    else if (view === "recent") heading.textContent = "Recently played";
-    else if (view === "playlists") heading.textContent = "Your playlists";
-    else if (view === "search") heading.textContent = "Search your tracks";
-    else heading.textContent = view === "discover" ? "Discover your sounds" : "Your tracks";
-    if (view === "discover") toast("Choose a mood or add your own tracks to start exploring.");
-    if (view === "playlists") toast("Playlist creation is planned for a future update.");
-    if (view === "home") $("homeSection").scrollIntoView({ behavior: "smooth", block: "nearest" });
-    else document.querySelector(".tracks-section").scrollIntoView({ behavior: "smooth", block: "start" });
+    activeView=view;setNavActive(view);
+    $("trackHeading").textContent=({favorites:"Liked songs",recent:"Recently played",playlists:"Your playlists",search:"Search your tracks",discover:"Discover"}[view]||"Your music");
+    if(view==="home")$("homeSection").scrollIntoView({behavior:"smooth",block:"nearest"});
+    else document.querySelector(".tracks-section").scrollIntoView({behavior:"smooth",block:"start"});
     renderTracks();
   }
-  document.querySelectorAll("[data-view]").forEach(button => button.addEventListener("click", () => showView(button.dataset.view)));
-  document.querySelectorAll("[data-mood]").forEach(button => button.addEventListener("click", () => {
-    const mood = button.dataset.mood;
-    activeView = "home";
-    $("trackHeading").textContent = mood + " mood · Your tracks";
-    renderTracks(tracks);
-    document.querySelector(".tracks-section").scrollIntoView({ behavior: "smooth", block: "start" });
-    toast("Mood selected: " + mood + ". Mood-based playlists are coming later.");
-  }));
-  ["uploadSide", "uploadMain", "emptyUpload", "addTracks"].forEach(id => {
-    const button = $(id);
-    if (button) button.addEventListener("click", () => input.click());
-  });
-  input.addEventListener("change", event => {
-    addFiles(event.target.files);
-    input.value = "";
-  });
-  $("searchInput").addEventListener("input", () => {
-    activeView = "search";
-    setNavActive("search");
-    $("trackHeading").textContent = "Search your tracks";
-    renderTracks();
-  });
-  $("searchInput").addEventListener("keydown", event => {
-    if (event.key === "Enter") showView("search");
-  });
-  document.addEventListener("keydown", event => {
-    if (event.key === "/" && !["INPUT","TEXTAREA"].includes(document.activeElement.tagName)) {
-      event.preventDefault();
-      $("searchInput").focus();
-    }
-  });
-  $("heroUpload").addEventListener("click", togglePlayback);
-  $("playBtn").addEventListener("click", togglePlayback);
-  ["trendPlayOne","trendPlayTwo","trendPlayThree","trendPlayFour","trendPlayFive"].forEach(id => {
-    $(id).addEventListener("click", () => toast("Add your own audio files to play music in SOLO MUSIC."));
-  });
-  ["createPlaylist","premiumInfo","notificationBtn","themeBtn","shuffleBtn","repeatBtn","expandBtn"].forEach(id => {
-    const control = $(id);
-    if (control) control.addEventListener("click", () => {
-      const messages = {
-        createPlaylist: "Playlist creation is planned for a future update.",
-        premiumInfo: "Premium features are not available in this first version.",
-        notificationBtn: "You are all caught up.",
-        themeBtn: "The neon theme is part of SOLO MUSIC.",
-        shuffleBtn: "Shuffle is coming in a future update.",
-        repeatBtn: "Repeat is coming in a future update.",
-        expandBtn: "The expanded player is coming in a future update."
-      };
-      toast(messages[id]);
-    });
-  });
-  $("prevBtn").addEventListener("click", () => {
-    if (!tracks.length) return toast("Add some tracks first.");
-    playTrack((currentIndex - 1 + tracks.length) % tracks.length);
-  });
-  $("nextBtn").addEventListener("click", () => {
-    if (!tracks.length) return toast("Add some tracks first.");
-    playTrack((currentIndex + 1) % tracks.length);
-  });
-  $("playerLike").addEventListener("click", () => {
-    if (currentIndex < 0) return toast("Play a track first.");
-    tracks[currentIndex].liked = !tracks[currentIndex].liked;
-    setCurrentUI();
-    toast(tracks[currentIndex].liked ? "Added to your liked songs." : "Removed from liked songs.");
-  });
-  $("volumeBar").addEventListener("input", event => audio.volume = Number(event.target.value));
-  audio.volume = 0.8;
-  $("seekBar").addEventListener("input", event => {
-    if (Number.isFinite(audio.duration)) audio.currentTime = Number(event.target.value) / 100 * audio.duration;
-  });
-  audio.addEventListener("timeupdate", () => {
-    $("currentTime").textContent = formatTime(audio.currentTime);
-    $("duration").textContent = formatTime(audio.duration);
-    $("seekBar").value = Number.isFinite(audio.duration) && audio.duration ? audio.currentTime / audio.duration * 100 : 0;
-  });
-  audio.addEventListener("play", setCurrentUI);
-  audio.addEventListener("pause", setCurrentUI);
-  audio.addEventListener("ended", () => {
-    if (tracks.length > 1) playTrack((currentIndex + 1) % tracks.length);
-    else setCurrentUI();
-  });
-  audio.addEventListener("error", () => toast("This audio format could not be played by your browser."));
-  $("queueBtn").addEventListener("click", () => toast(tracks.length ? tracks.length + " track(s) in your local queue." : "Your queue is empty. Add audio files to begin."));
-  $("backBtn").addEventListener("click", () => showView("home"));
-  $("forwardBtn").addEventListener("click", () => showView("discover"));
-  renderTracks(tracks);
-  setCurrentUI();
+  document.querySelectorAll("[data-view]").forEach(b=>b.addEventListener("click",()=>showView(b.dataset.view)));
+  document.querySelectorAll("[data-mood]").forEach(b=>b.addEventListener("click",()=>{toast(b.dataset.mood+" mood selected. Mood playlists are not connected yet.");}));
+  ["heroUpload","emptyUpload","addTracks"].forEach(id=>{const b=$(id);if(b)b.addEventListener("click",()=>input.click());});
+  input.addEventListener("change",e=>{addFiles(e.target.files);input.value="";});
+  $("searchInput").addEventListener("input",()=>{activeView="search";setNavActive("search");$("trackHeading").textContent="Search your tracks";renderTracks();});
+  $("searchInput").addEventListener("keydown",e=>{if(e.key==="Enter")showView("search");});
+  $("heroUpload").querySelector("span").textContent="Add music";
+  $("playBtn").addEventListener("click",togglePlayback);
+  $("prevBtn").addEventListener("click",()=>tracks.length?playTrack((currentIndex-1+tracks.length)%tracks.length):toast("Add music first."));
+  $("nextBtn").addEventListener("click",()=>tracks.length?playTrack((currentIndex+1)%tracks.length):toast("Add music first."));
+  $("playerLike").addEventListener("click",async()=>{const t=tracks[currentIndex];if(!t)return toast("Play a track first.");t.liked=!t.liked;try{await updateSavedTrack(t);}catch(e){}setCurrentUI();});
+  $("volumeBar").addEventListener("input",e=>audio.volume=Number(e.target.value)); audio.volume=.8;
+  $("seekBar").addEventListener("input",e=>{if(Number.isFinite(audio.duration))audio.currentTime=Number(e.target.value)/100*audio.duration;});
+  audio.addEventListener("timeupdate",()=>{$("currentTime").textContent=formatTime(audio.currentTime);$("duration").textContent=formatTime(audio.duration);$("seekBar").value=Number.isFinite(audio.duration)&&audio.duration?audio.currentTime/audio.duration*100:0;});
+  audio.addEventListener("play",()=>setCurrentUI()); audio.addEventListener("pause",()=>setCurrentUI());
+  audio.addEventListener("ended",()=>tracks.length>1?playTrack((currentIndex+1)%tracks.length):setCurrentUI());
+  audio.addEventListener("error",()=>{if(audio.currentSrc)toast("This audio format is not supported by your browser.");});
+  $("queueBtn").addEventListener("click",()=>toast(tracks.length?tracks.length+" track(s) in your library.":"Your library is empty."));
+  $("backBtn").addEventListener("click",()=>showView("home")); $("forwardBtn").addEventListener("click",()=>showView("discover"));
+  $("createPlaylist").addEventListener("click",()=>toast("Playlist creation is not available yet."));
+  $("premiumInfo").addEventListener("click",()=>toast("Premium is not available in this version."));
+  $("notificationBtn").addEventListener("click",()=>toast("You're all caught up."));
+  $("shuffleBtn").addEventListener("click",()=>toast("Shuffle is coming in a future update."));
+  $("repeatBtn").addEventListener("click",()=>toast("Repeat is coming in a future update."));
+  $("expandBtn").addEventListener("click",()=>toast("Expanded player is coming in a future update."));
+  ["trendPlayOne","trendPlayTwo","trendPlayThree","trendPlayFour","trendPlayFive"].forEach(id=>$(id).addEventListener("click",()=>toast("These are visual examples. Add your own audio files to play music.")));
+  renderTracks();setCurrentUI(false);
+  loadSavedTracks().catch(()=>toast("Device library storage is blocked. You can still choose files for this session."));
 })();
