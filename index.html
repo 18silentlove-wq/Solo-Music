@@ -14,7 +14,7 @@
 <body>
 <div class="app-shell">
   <aside class="sidebar">
-    <a class="brand" href="#" aria-label="SOLO MUSIC home"><span class="brand-mark">♫</span><b>SOLO MUSIC</b></a>
+    <a class="brand" href="#" data-view="home" aria-label="SOLO MUSIC home"><span class="brand-mark">♫</span><b>SOLO MUSIC</b></a>
     <nav class="main-nav" aria-label="Main navigation">
       <button class="nav-link active" data-view="home"><span class="nav-icon">⌂</span>Home</button>
       <button class="nav-link" data-view="search"><span class="nav-icon">⌕</span>Search</button>
@@ -26,7 +26,7 @@
       <button class="library-filter" data-view="favorites">Liked Songs</button>
       <button class="library-filter" data-view="recent">Recently Played</button>
       <div class="library-shortcuts">
-        <button class="shortcut-row" data-view="favorites"><span class="shortcut-cover liked-cover">♥</span><span><b>Liked Songs</b><small id="statLiked">0 Songs</small></span></button>
+        <button class="shortcut-row liked-shortcut" data-view="favorites"><span class="shortcut-cover liked-cover">♥</span><span><b>Liked Songs</b><small id="statLiked">0 Songs</small></span><span class="shortcut-arrow">›</span></button>
         <button class="shortcut-row" data-view="playlists"><span class="shortcut-cover chill-cover">♫</span><span><b>Chill Vibes</b><small>Playlist</small></span></button>
         <button class="shortcut-row" data-view="playlists"><span class="shortcut-cover focus-cover">◉</span><span><b>Focus Flow</b><small>Playlist</small></span></button>
       </div>
@@ -76,7 +76,7 @@
         </div>
       </section>
 
-      <section class="content-section tracks-section" data-section="library favorites recent playlists search">
+      <section class="content-section tracks-section" data-section="home library favorites recent playlists search">
         <div class="section-heading"><h2 id="trackHeading">Your music</h2><button class="text-link" id="addTracks">＋ Add music</button></div><p class="library-note">Choose audio files from your phone. Your library is saved in this browser on this device; files are not uploaded.</p>
         <div class="empty-state" id="emptyState"><div class="empty-art">♫</div><h3>Your music starts here</h3><p>Add audio files from your device to start listening.</p><button class="green-btn" id="emptyUpload">Choose audio files</button></div>
         <div class="track-list" id="trackList" hidden></div>
