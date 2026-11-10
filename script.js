@@ -145,7 +145,7 @@
     const labels={home:"Your music",library:"Your library",favorites:"Liked songs",recent:"Recently played",playlists:"Your playlists",search:"Search your tracks",discover:"Discover"};
     $("trackHeading").textContent=labels[view]||"Your music";
     document.querySelectorAll("[data-section]").forEach(section=>{
-      const allowed=(section.dataset.section||"").split(/\\s+/);
+      const allowed=(section.dataset.section||"").split(/\s+/);
       section.hidden=!allowed.includes(view);
     });
     if(view==="search") $("searchInput").focus({preventScroll:true});
@@ -157,7 +157,7 @@
   document.querySelectorAll("[data-mood]").forEach(b=>b.addEventListener("click",()=>{showView("discover");toast(b.dataset.mood+" mood selected.");}));
   ["heroUpload","emptyUpload","addTracks"].forEach(id=>{const b=$(id);if(b)b.addEventListener("click",()=>input.click());});
   input.addEventListener("change",e=>{addFiles(e.target.files);input.value="";});
-  $("searchInput").addEventListener("input",()=>{const first=activeView!=="search";activeView="search";setNavActive("search");$("trackHeading").textContent="Search your tracks";document.querySelectorAll("[data-section]").forEach(section=>{section.hidden=!(section.dataset.section||"").split(/\\s+/).includes("search");});if(first)document.querySelector(".content-scroll").scrollTo({top:0,behavior:"smooth"});renderTracks();});
+  $("searchInput").addEventListener("input",()=>{const first=activeView!=="search";activeView="search";setNavActive("search");$("trackHeading").textContent="Search your tracks";document.querySelectorAll("[data-section]").forEach(section=>{section.hidden=!(section.dataset.section||"").split(/\s+/).includes("search");});if(first)document.querySelector(".content-scroll").scrollTo({top:0,behavior:"smooth"});renderTracks();});
   $("searchInput").addEventListener("keydown",e=>{if(e.key==="Enter")showView("search");});
   $("heroUpload").querySelector("span").textContent="Add music";
   $("playBtn").addEventListener("click",togglePlayback);
