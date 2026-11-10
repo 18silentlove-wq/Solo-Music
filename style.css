@@ -21,3 +21,40 @@ footer{display:flex;align-items:center;gap:13px;margin-top:20px;padding:17px 0 4
 .player-bar{height:119px;grid-template-columns:minmax(0,1fr) auto;grid-template-rows:48px 55px;gap:0 7px;padding:7px 10px 8px}.now-playing{grid-column:1;grid-row:1}.mini-cover{width:37px;height:37px}.now-meta b{font-size:10px}.now-meta span{font-size:9px}.like-btn{font-size:19px}.player-center{display:flex;grid-column:1/3;grid-row:2;max-width:none;flex-direction:column-reverse;gap:3px}.player-controls{gap:21px;margin:0}.control-btn{font-size:17px}.play-btn{width:35px;height:35px;font-size:13px}.progress-row{gap:6px;font-size:8px}.player-extra{grid-column:2;grid-row:1}.player-extra input,.volume-icon,.queue-btn,.expand-btn{display:none}
 .mobile-nav{position:fixed;z-index:11;right:0;bottom:119px;left:0;display:flex;justify-content:space-around;padding:6px 8px 4px;border-top:1px solid #6d37b9;background:#0b0825f7;backdrop-filter:blur(15px)}.mobile-nav button{display:grid;gap:2px;justify-items:center;padding:3px 12px;border:0;background:transparent;color:#a9a2c5;font-size:8px;cursor:pointer}.mobile-nav button span{font-size:17px}.mobile-nav button.active{color:#df9dff}footer{font-size:7px}footer small{display:none}.toast{bottom:180px}}
 @media(max-width:390px){.mobile-brand b{display:none}.search-box{max-width:170px}.topbar-right{gap:3px}.top-icon{width:27px}.hero-copy{max-width:77%}.hero-copy h1{font-size:28px}.hero-copy h2{font-size:16px}.hero-visual{left:52%;opacity:.45}.cover-art{height:108px}.player-controls{gap:15px}}
+
+
+/* Layout polish: preserve the approved SOLO MUSIC composition */
+:root{color-scheme:dark}
+button:focus-visible,input:focus-visible{outline:2px solid #d28aff;outline-offset:3px}
+.main-content{min-width:0}
+.topbar{min-width:0}
+.search-box{margin-left:clamp(0px,4vw,58px);width:min(650px,54vw)}
+.dashboard-grid{grid-template-columns:minmax(0,1fr) minmax(270px,310px);gap:20px}
+.trending-grid{gap:13px}
+.music-card{transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease}
+.music-card:hover{transform:translateY(-3px);border-color:#a64dff;box-shadow:0 9px 24px #6200ff25}
+.side-panel{min-width:0}
+.playlist-row,.recent-row{min-height:58px}
+.player-bar{grid-template-columns:minmax(190px,1fr) minmax(270px,1.1fr) minmax(170px,1fr)}
+@media(max-width:1250px){
+  .search-box{margin-left:clamp(0px,2vw,22px);width:min(560px,48vw)}
+  .dashboard-grid{grid-template-columns:minmax(0,1fr) 275px;gap:14px}
+  .trending-grid{gap:9px}
+  .player-bar{gap:12px;padding-right:15px;padding-left:15px}
+}
+@media(max-width:980px){
+  .search-box{width:auto;flex:1;margin-left:0}
+  .dashboard-grid{grid-template-columns:minmax(0,1fr)}
+  .dashboard-side{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .library-panel{display:block}
+  .player-bar{grid-template-columns:minmax(0,1fr) minmax(260px,1.1fr) minmax(0,1fr)}
+}
+@media(max-width:680px){
+  .search-box{width:auto;flex:1;margin-left:0}
+  .dashboard-side{grid-template-columns:minmax(0,1fr)}
+  .library-panel{display:block}
+  .player-bar{grid-template-columns:minmax(0,1fr) auto;grid-template-rows:48px 55px}
+  .main-content{padding-bottom:calc(18px + env(safe-area-inset-bottom))}
+  .mobile-nav{padding-bottom:calc(4px + env(safe-area-inset-bottom))}
+  .player-bar{padding-bottom:calc(8px + env(safe-area-inset-bottom))}
+}
