@@ -20,7 +20,10 @@
   }
   function updateStats() {
     $("statTracks").textContent = tracks.length;
-    $("statLiked").textContent = tracks.filter(track => track.liked).length;
+    const likedCount = tracks.filter(track => track.liked).length;
+    $("statLiked").textContent = likedCount + " Songs";
+    const likedCountLabel = $("statLikedCount");
+    if (likedCountLabel) likedCountLabel.textContent = likedCount;
     $("libraryProgress").style.width = Math.min(100, tracks.length * 10) + "%";
   }
   function currentList() {
@@ -181,7 +184,7 @@
     document.querySelector(".tracks-section").scrollIntoView({ behavior: "smooth", block: "start" });
     toast("Mood selected: " + mood + ". Mood-based playlists are coming later.");
   }));
-  ["uploadSide", "uploadMain", "emptyUpload", "addTracks", "heroUpload"].forEach(id => {
+  ["uploadSide", "uploadMain", "emptyUpload", "addTracks"].forEach(id => {
     const button = $(id);
     if (button) button.addEventListener("click", () => input.click());
   });
@@ -204,7 +207,26 @@
       $("searchInput").focus();
     }
   });
+  $("heroUpload").addEventListener("click", togglePlayback);
   $("playBtn").addEventListener("click", togglePlayback);
+  ["trendPlayOne","trendPlayTwo","trendPlayThree","trendPlayFour","trendPlayFive"].forEach(id => {
+    $(id).addEventListener("click", () => toast("Add your own audio files to play music in SOLO MUSIC."));
+  });
+  ["createPlaylist","premiumInfo","notificationBtn","themeBtn","shuffleBtn","repeatBtn","expandBtn"].forEach(id => {
+    const control = $(id);
+    if (control) control.addEventListener("click", () => {
+      const messages = {
+        createPlaylist: "Playlist creation is planned for a future update.",
+        premiumInfo: "Premium features are not available in this first version.",
+        notificationBtn: "You are all caught up.",
+        themeBtn: "The neon theme is part of SOLO MUSIC.",
+        shuffleBtn: "Shuffle is coming in a future update.",
+        repeatBtn: "Repeat is coming in a future update.",
+        expandBtn: "The expanded player is coming in a future update."
+      };
+      toast(messages[id]);
+    });
+  });
   $("prevBtn").addEventListener("click", () => {
     if (!tracks.length) return toast("Add some tracks first.");
     playTrack((currentIndex - 1 + tracks.length) % tracks.length);
