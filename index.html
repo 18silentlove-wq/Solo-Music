@@ -2,101 +2,72 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#121212">
-<meta name="description" content="ANIME WORLD — Enter Your Anime Universe.">
-<title>ANIME WORLD — Enter Your Anime Universe.</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#090812">
+<meta name="description" content="ANIME WORLD — Discover your next anime obsession.">
+<title>ANIME WORLD — Discover. Watch. Repeat.</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<div class="app-shell">
-  <aside class="sidebar">
-    <a class="brand" href="#" data-view="home" aria-label="ANIME WORLD home"><span class="brand-mark">✦</span><b>ANIME WORLD</b></a>
-    <nav class="main-nav" aria-label="Main navigation">
-      <button class="nav-link active" data-view="home"><span class="nav-icon">⌂</span>Home</button>
-      <button class="nav-link" data-view="search"><span class="nav-icon">⌕</span>Search</button>
-      <button class="nav-link" data-view="library"><span class="nav-icon">▤</span>Your Library</button>
-    </nav>
-    <div class="library-tools">
-      <div class="library-title"><b>Your Library</b><button id="createPlaylist" aria-label="Create playlist">＋</button></div>
-      <button class="library-filter active" data-view="playlists">Collections</button>
-      <button class="library-filter" data-view="favorites">Watchlist</button>
-      <button class="library-filter" data-view="recent">Recently Watched</button>
-      <div class="library-shortcuts">
-        <button class="shortcut-row liked-shortcut" data-view="favorites"><span class="shortcut-cover liked-cover">♥</span><span><b>Watchlist</b><small id="statLiked">0 Saved</small></span><span class="shortcut-arrow">›</span></button>
-        <button class="shortcut-row" data-view="playlists"><span class="shortcut-cover chill-cover">✦</span><span><b>Action Anime</b><small>Collection</small></span></button>
-        <button class="shortcut-row" data-view="playlists"><span class="shortcut-cover focus-cover">◉</span><span><b>Fantasy Worlds</b><small>Collection</small></span></button>
+<div class="app">
+<aside class="sidebar">
+  <a class="brand" href="#" data-page="home"><span class="brand-symbol">✦</span><span>ANIME<span class="brand-accent">WORLD</span></span></a>
+  <div class="side-label">MENU</div>
+  <nav class="side-nav">
+    <button class="nav-item active" data-page="home"><span>⌂</span> Home</button>
+    <button class="nav-item" data-page="explore"><span>◈</span> Explore</button>
+    <button class="nav-item" data-page="schedule"><span>▦</span> Release Schedule</button>
+    <button class="nav-item" data-page="watchlist"><span>♡</span> My Watchlist <i id="watchCount">0</i></button>
+  </nav>
+  <div class="side-label collection-label">YOUR COLLECTION</div>
+  <button class="collection-link" data-genre="Action"><span class="collection-dot dot-pink"></span> Action & Adventure</button>
+  <button class="collection-link" data-genre="Fantasy"><span class="collection-dot dot-purple"></span> Fantasy Worlds</button>
+  <button class="collection-link" data-genre="Romance"><span class="collection-dot dot-orange"></span> Romance</button>
+  <div class="sidebar-bottom"><div class="side-orb">✧</div><b>Your next world is waiting.</b><p>Find a story worth staying up for.</p><button id="sideExplore">Explore anime <span>→</span></button></div>
+  <div class="side-footer">ANIME WORLD <span>DEMO EXPERIENCE</span></div>
+</aside>
+<main class="main">
+  <header class="topbar">
+    <button class="mobile-menu" id="mobileMenu" aria-label="Open menu">☰</button>
+    <div class="crumb">Discover <span>/</span> <b id="crumbName">Home</b></div>
+    <label class="search"><span>⌕</span><input id="searchInput" type="search" placeholder="Search anime, genre..." autocomplete="off"><kbd>⌕</kbd></label>
+    <button class="signin-btn" id="openAuth"><span class="user-icon">♙</span> Sign in</button>
+  </header>
+  <div class="page-scroll">
+    <section class="hero" id="hero">
+      <div class="hero-art"><div class="hero-moon"></div><div class="hero-silhouette"></div><div class="hero-rings"></div></div>
+      <div class="hero-content">
+        <div class="hero-tag"><span class="live-dot"></span> THE ANIME UNIVERSE</div>
+        <p class="hero-kicker">YOUR NEXT OBSESSION STARTS HERE</p>
+        <h1>Stories beyond<br><em>imagination.</em></h1>
+        <p class="hero-copy">Step into unforgettable worlds, meet extraordinary characters, and discover your next favourite anime.</p>
+        <div class="hero-actions"><button class="primary-btn" id="heroExplore">Explore anime <span>→</span></button><button class="ghost-btn" id="heroFeatured">View featured <span>↗</span></button></div>
+        <div class="hero-meta"><span><b>01</b> / FEATURED UNIVERSE</span><span class="meta-line"></span><span>ADVENTURE · FANTASY · ACTION</span></div>
       </div>
-    </div>
-    <div class="sidebar-bottom"><span>Enter your anime universe.</span><button id="premiumInfo">Explore More</button></div>
-  </aside>
-
-  <main class="main-content">
-    <header class="topbar">
-      <div class="history-controls"><button class="circle-btn" id="backBtn" aria-label="Back">‹</button><button class="circle-btn" id="forwardBtn" aria-label="Forward">›</button></div>
-      <div class="mobile-brand"><span class="brand-mark">✦</span><b>ANIME WORLD</b></div>
-      <label class="search-box"><span>⌕</span><input id="searchInput" type="search" placeholder="Search anime..." aria-label="Search anime"></label>
-      <div class="topbar-right"><button class="premium-link" id="notificationBtn">What's New</button><button class="profile-btn" aria-label="Profile">A</button></div>
-    </header>
-
-    <div class="content-scroll">
-      <section class="welcome-row" data-section="home">
-        <div><p class="eyebrow">ENTER YOUR ANIME UNIVERSE</p><h1>Your next adventure awaits.</h1></div>
-        <button class="green-btn" id="heroUpload">▶ <span>Explore anime</span></button>
-      </section>
-
-      <section class="quick-grid" data-section="home" aria-label="Your shortcuts">
-        <button class="quick-tile" data-view="favorites"><span class="quick-art liked-cover">♥</span><b>Watchlist</b><span class="quick-play">▶</span></button>
-        <button class="quick-tile" data-view="recent"><span class="quick-art recent-art">◷</span><b>Continue Watching</b><span class="quick-play">▶</span></button>
-        <button class="quick-tile" data-view="playlists"><span class="quick-art chill-cover">✦</span><b>Action Anime</b><span class="quick-play">▶</span></button>
-        <button class="quick-tile" data-view="playlists"><span class="quick-art focus-cover">◉</span><b>Fantasy Worlds</b><span class="quick-play">▶</span></button>
-      </section>
-
-      <section class="content-section trending-section" data-section="home discover">
-        <div class="section-heading"><h2>Popular Anime</h2><button class="text-link" data-view="discover">Show all</button></div>
-        <div class="trending-grid">
-          <article class="music-card cover-one"><div class="cover-art"><button class="cover-play" id="trendPlayOne" aria-label="Open anime 1">▶</button></div><b>Anime Spotlight 01</b><small>Adventure · Fantasy</small></article>
-          <article class="music-card cover-two"><div class="cover-art"><button class="cover-play" id="trendPlayTwo" aria-label="Open anime 2">▶</button></div><b>Anime Spotlight 02</b><small>Action · Drama</small></article>
-          <article class="music-card cover-three"><div class="cover-art"><button class="cover-play" id="trendPlayThree" aria-label="Open anime 3">▶</button></div><b>Anime Spotlight 03</b><small>Fantasy · Mystery</small></article>
-          <article class="music-card cover-four"><div class="cover-art"><button class="cover-play" id="trendPlayFour" aria-label="Open anime 4">▶</button></div><b>Anime Spotlight 04</b><small>Slice of Life · Drama</small></article>
-          <article class="music-card cover-five"><div class="cover-art"><button class="cover-play" id="trendPlayFive" aria-label="Open anime 5">▶</button></div><b>Anime Spotlight 05</b><small>Sci-Fi · Adventure</small></article>
-        </div>
-      </section>
-
-      <section class="content-section mood-section" id="homeSection" data-section="home discover">
-        <div class="section-heading"><h2>Explore by Genre</h2><button class="text-link" data-view="discover">Show all</button></div>
-        <div class="mood-grid">
-          <button class="mood-card mood-chill" data-mood="Adventure"><b>Adventure</b><small>Discover new worlds</small></button>
-          <button class="mood-card mood-focus" data-mood="Mystery"><b>Mystery</b><small>Uncover the unknown</small></button>
-          <button class="mood-card mood-energy" data-mood="Action"><b>Action</b><small>Feel the excitement</small></button>
-          <button class="mood-card mood-romantic" data-mood="Romance"><b>Romance</b><small>Stories from the heart</small></button>
-        </div>
-      </section>
-
-      <section class="content-section tracks-section" data-section="home library favorites recent playlists search">
-        <div class="section-heading"><h2 id="trackHeading">Your Anime</h2><button class="text-link" id="addTracks">＋ Add to library</button></div><p class="library-note">Anime catalog preview. Streaming episodes and account features are not connected yet.</p>
-        <div class="empty-state" id="emptyState"><div class="empty-art">✦</div><h3>Your anime journey starts here</h3><p>Explore anime collections and save your favourites.</p><button class="green-btn" id="emptyUpload">Explore collection</button></div>
-        <div class="track-list" id="trackList" hidden></div>
-      </section>
-
-      <section class="library-panel" data-section="library"><div class="section-heading"><h2>Your Library</h2></div><div class="stat-row"><span>Saved titles</span><b id="statTracks">0</b></div><div class="stat-row"><span>Watchlist titles</span><b id="statLikedCount">0</b></div><div class="library-progress"><span id="libraryProgress"></span></div></section>
-      <footer data-section="home"><b>ANIME WORLD</b><span>ENTER YOUR ANIME UNIVERSE.</span></footer>
-    </div>
-  </main>
+      <div class="hero-side-note">ANIME WORLD <span>— EST. 2026</span></div>
+    </section>
+    <section class="stats-strip"><div><b>DISCOVER</b><span>New worlds every day</span></div><div><b>YOUR TASTE</b><span>Genres for every mood</span></div><div><b>YOUR LIST</b><span>Keep favourites close</span></div><div class="strip-mark">✦</div></section>
+    <section class="section-block" id="catalogSection">
+      <div class="section-head"><div><p class="section-kicker">CURATED FOR YOU</p><h2 id="sectionTitle">Trending <em>this week</em></h2></div><button class="view-all" id="viewAll">VIEW ALL <span>↗</span></button></div>
+      <div class="filter-row" id="filters"><button class="filter-chip active" data-filter="All">All anime</button><button class="filter-chip" data-filter="Action">Action</button><button class="filter-chip" data-filter="Fantasy">Fantasy</button><button class="filter-chip" data-filter="Adventure">Adventure</button><button class="filter-chip" data-filter="Romance">Romance</button><button class="filter-chip" data-filter="Mystery">Mystery</button></div>
+      <div class="anime-grid" id="animeGrid"></div>
+      <div class="no-results" id="noResults" hidden><span>✧</span><h3>No anime found</h3><p>Try another title or choose a different genre.</p></div>
+    </section>
+    <section class="spotlight">
+      <div><p class="section-kicker">FIND YOUR NEXT FAVOURITE</p><h2>Every story opens<br>a <em>new universe.</em></h2><p>From heart-racing adventures to quiet moments that stay with you.</p><button class="primary-btn" id="spotExplore">Browse the collection <span>→</span></button></div>
+      <div class="spotlight-art"><div class="spotlight-planet"></div><span class="spark s1">✦</span><span class="spark s2">✧</span><span class="spark s3">✦</span><div class="spotlight-caption">IMAGINE MORE.</div></div>
+    </section>
+    <footer><a class="footer-brand" href="#">✦ ANIME WORLD</a><span>DEMO INTERFACE · VIDEO STREAMING NOT CONNECTED</span><span>© 2026 ANIME WORLD</span></footer>
+  </div>
+</main>
 </div>
-
-<nav class="mobile-nav" aria-label="Mobile navigation"><button class="active" data-view="home"><span>⌂</span>Home</button><button data-view="search"><span>⌕</span>Search</button><button data-view="favorites"><span>♥</span>Watchlist</button><button data-view="recent"><span>◷</span>Recent</button></nav>
-<div class="player-bar">
-  <div class="now-playing"><div class="mini-cover" id="miniCover">✦</div><div class="now-meta"><b id="nowTitle">Nothing playing</b><span id="nowArtist">Explore anime to begin</span></div><button class="like-btn" id="playerLike" aria-label="Save current title">♡</button></div>
-  <div class="player-center"><div class="player-controls"><button class="control-btn" id="shuffleBtn" aria-label="Shuffle">⤨</button><button class="control-btn" id="prevBtn" aria-label="Previous">|‹</button><button class="play-btn" id="playBtn" aria-label="Play">▶</button><button class="control-btn" id="nextBtn" aria-label="Next">›|</button><button class="control-btn" id="repeatBtn" aria-label="Repeat">⟳</button></div><div class="progress-row"><span id="currentTime">0:00</span><input type="range" id="seekBar" min="0" max="100" value="0" aria-label="Seek"><span id="duration">0:00</span></div></div>
-  <div class="player-extra"><span class="volume-icon">◖</span><input type="range" id="volumeBar" min="0" max="1" step="0.01" value="0.8" aria-label="Volume"><button class="queue-btn" id="queueBtn" title="Show queue">☷</button><button class="expand-btn" id="expandBtn" aria-label="Expand player">⛶</button></div>
-</div>
-<input type="file" id="audioInput" accept="audio/*" multiple hidden>
+<div class="mobile-bottom"><button class="active" data-page="home">⌂<span>Home</span></button><button data-page="explore">◈<span>Explore</span></button><button data-page="watchlist">♡<span>Watchlist</span></button><button id="mobileAccount">♙<span>Account</span></button></div>
+<div class="modal-backdrop" id="authModal" hidden><section class="modal auth-modal" role="dialog" aria-modal="true" aria-labelledby="authTitle"><button class="modal-close" data-close="authModal" aria-label="Close">×</button><div class="modal-logo">✦</div><p class="section-kicker">WELCOME TO YOUR UNIVERSE</p><h2 id="authTitle">Sign in to <em>Anime World</em></h2><p class="modal-copy">Save your watchlist and keep your anime discoveries together.</p><div class="auth-tabs"><button class="active" data-auth-tab="signin">Sign in</button><button data-auth-tab="signup">Create account</button></div><form id="authForm"><label class="field-label" for="emailField">Email address</label><input id="emailField" type="email" placeholder="you@example.com" required autocomplete="email"><label class="field-label" for="passwordField">Password</label><input id="passwordField" type="password" placeholder="Enter your password" required autocomplete="current-password" minlength="6"><button class="primary-btn auth-submit" type="submit" id="authSubmit">Sign in <span>→</span></button></form><p class="demo-note">Demo only: account creation and email authentication are not connected. Do not enter a real password.</p></section></div>
+<div class="modal-backdrop" id="detailModal" hidden><section class="modal detail-modal" role="dialog" aria-modal="true" aria-labelledby="detailTitle"><button class="modal-close" data-close="detailModal" aria-label="Close">×</button><div class="detail-visual" id="detailVisual"><span>ANIME WORLD ORIGINAL COLLECTION</span></div><div class="detail-body"><p class="section-kicker" id="detailGenre">FEATURED ANIME</p><h2 id="detailTitle">Anime title</h2><p id="detailDescription"></p><div class="detail-meta" id="detailMeta"></div><div class="detail-actions"><button class="primary-btn" id="detailWatch">▶ Watch trailer</button><button class="ghost-btn" id="detailSave">♡ Add to watchlist</button></div><div class="episode-heading">SEASON & EPISODES <span>PREVIEW</span></div><div class="episode-list"><div><b>01</b><span>Episode list preview</span><small>Not available yet</small></div><div><b>02</b><span>Streaming setup coming later</span><small>Not available yet</small></div></div></div></section></div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
-<audio id="audioPlayer" preload="metadata"></audio>
 <script src="script.js"></script>
 </body>
 </html>
