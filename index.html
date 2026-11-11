@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#121212">
-<meta name="description" content="SOLO MUSIC — Your Music. Your World.">
-<title>SOLO MUSIC — Your Music. Your World.</title>
+<meta name="description" content="ANIME WORLD — Enter Your Anime Universe.">
+<title>ANIME WORLD — Enter Your Anime Universe.</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -14,7 +14,7 @@
 <body>
 <div class="app-shell">
   <aside class="sidebar">
-    <a class="brand" href="#" data-view="home" aria-label="SOLO MUSIC home"><span class="brand-mark">♫</span><b>SOLO MUSIC</b></a>
+    <a class="brand" href="#" data-view="home" aria-label="ANIME WORLD home"><span class="brand-mark">✦</span><b>ANIME WORLD</b></a>
     <nav class="main-nav" aria-label="Main navigation">
       <button class="nav-link active" data-view="home"><span class="nav-icon">⌂</span>Home</button>
       <button class="nav-link" data-view="search"><span class="nav-icon">⌕</span>Search</button>
@@ -22,76 +22,76 @@
     </nav>
     <div class="library-tools">
       <div class="library-title"><b>Your Library</b><button id="createPlaylist" aria-label="Create playlist">＋</button></div>
-      <button class="library-filter active" data-view="playlists">Playlists</button>
-      <button class="library-filter" data-view="favorites">Liked Songs</button>
-      <button class="library-filter" data-view="recent">Recently Played</button>
+      <button class="library-filter active" data-view="playlists">Collections</button>
+      <button class="library-filter" data-view="favorites">Watchlist</button>
+      <button class="library-filter" data-view="recent">Recently Watched</button>
       <div class="library-shortcuts">
-        <button class="shortcut-row liked-shortcut" data-view="favorites"><span class="shortcut-cover liked-cover">♥</span><span><b>Liked Songs</b><small id="statLiked">0 Songs</small></span><span class="shortcut-arrow">›</span></button>
-        <button class="shortcut-row" data-view="playlists"><span class="shortcut-cover chill-cover">♫</span><span><b>Chill Vibes</b><small>Playlist</small></span></button>
-        <button class="shortcut-row" data-view="playlists"><span class="shortcut-cover focus-cover">◉</span><span><b>Focus Flow</b><small>Playlist</small></span></button>
+        <button class="shortcut-row liked-shortcut" data-view="favorites"><span class="shortcut-cover liked-cover">♥</span><span><b>Watchlist</b><small id="statLiked">0 Saved</small></span><span class="shortcut-arrow">›</span></button>
+        <button class="shortcut-row" data-view="playlists"><span class="shortcut-cover chill-cover">✦</span><span><b>Action Anime</b><small>Collection</small></span></button>
+        <button class="shortcut-row" data-view="playlists"><span class="shortcut-cover focus-cover">◉</span><span><b>Fantasy Worlds</b><small>Collection</small></span></button>
       </div>
     </div>
-    <div class="sidebar-bottom"><span>Made for your moments.</span><button id="premiumInfo">Explore Premium</button></div>
+    <div class="sidebar-bottom"><span>Enter your anime universe.</span><button id="premiumInfo">Explore More</button></div>
   </aside>
 
   <main class="main-content">
     <header class="topbar">
       <div class="history-controls"><button class="circle-btn" id="backBtn" aria-label="Back">‹</button><button class="circle-btn" id="forwardBtn" aria-label="Forward">›</button></div>
-      <div class="mobile-brand"><span class="brand-mark">♫</span><b>SOLO MUSIC</b></div>
-      <label class="search-box"><span>⌕</span><input id="searchInput" type="search" placeholder="What do you want to play?" aria-label="Search your music"></label>
-      <div class="topbar-right"><button class="premium-link" id="notificationBtn">What's New</button><button class="profile-btn" aria-label="Profile">S</button></div>
+      <div class="mobile-brand"><span class="brand-mark">✦</span><b>ANIME WORLD</b></div>
+      <label class="search-box"><span>⌕</span><input id="searchInput" type="search" placeholder="Search anime..." aria-label="Search anime"></label>
+      <div class="topbar-right"><button class="premium-link" id="notificationBtn">What's New</button><button class="profile-btn" aria-label="Profile">A</button></div>
     </header>
 
     <div class="content-scroll">
       <section class="welcome-row" data-section="home">
-        <div><p class="eyebrow">YOUR MUSIC. YOUR WORLD.</p><h1>Good music, good mood.</h1></div>
-        <button class="green-btn" id="heroUpload">▶ <span>Play music</span></button>
+        <div><p class="eyebrow">ENTER YOUR ANIME UNIVERSE</p><h1>Your next adventure awaits.</h1></div>
+        <button class="green-btn" id="heroUpload">▶ <span>Explore anime</span></button>
       </section>
 
       <section class="quick-grid" data-section="home" aria-label="Your shortcuts">
-        <button class="quick-tile" data-view="favorites"><span class="quick-art liked-cover">♥</span><b>Liked Songs</b><span class="quick-play">▶</span></button>
-        <button class="quick-tile" data-view="recent"><span class="quick-art recent-art">◷</span><b>Recently Played</b><span class="quick-play">▶</span></button>
-        <button class="quick-tile" data-view="playlists"><span class="quick-art chill-cover">♫</span><b>Chill Vibes</b><span class="quick-play">▶</span></button>
-        <button class="quick-tile" data-view="playlists"><span class="quick-art focus-cover">◉</span><b>Focus Flow</b><span class="quick-play">▶</span></button>
+        <button class="quick-tile" data-view="favorites"><span class="quick-art liked-cover">♥</span><b>Watchlist</b><span class="quick-play">▶</span></button>
+        <button class="quick-tile" data-view="recent"><span class="quick-art recent-art">◷</span><b>Continue Watching</b><span class="quick-play">▶</span></button>
+        <button class="quick-tile" data-view="playlists"><span class="quick-art chill-cover">✦</span><b>Action Anime</b><span class="quick-play">▶</span></button>
+        <button class="quick-tile" data-view="playlists"><span class="quick-art focus-cover">◉</span><b>Fantasy Worlds</b><span class="quick-play">▶</span></button>
       </section>
 
       <section class="content-section trending-section" data-section="home discover">
-        <div class="section-heading"><h2>Made for your day</h2><button class="text-link" data-view="discover">Show all</button></div>
+        <div class="section-heading"><h2>Popular Anime</h2><button class="text-link" data-view="discover">Show all</button></div>
         <div class="trending-grid">
-          <article class="music-card cover-one"><div class="cover-art"><button class="cover-play" id="trendPlayOne" aria-label="Play Kesariya">▶</button></div><b>Kesariya</b><small>Arijit Singh</small></article>
-          <article class="music-card cover-two"><div class="cover-art"><button class="cover-play" id="trendPlayTwo" aria-label="Play 52 Bars">▶</button></div><b>52 Bars</b><small>Karan Aujla</small></article>
-          <article class="music-card cover-three"><div class="cover-art"><button class="cover-play" id="trendPlayThree" aria-label="Play Apna Bana Le">▶</button></div><b>Apna Bana Le</b><small>Arijit Singh</small></article>
-          <article class="music-card cover-four"><div class="cover-art"><button class="cover-play" id="trendPlayFour" aria-label="Play Humnava Mere">▶</button></div><b>Humnava Mere</b><small>Jubin Nautiyal</small></article>
-          <article class="music-card cover-five"><div class="cover-art"><button class="cover-play" id="trendPlayFive" aria-label="Play Perfect">▶</button></div><b>Perfect</b><small>Ed Sheeran</small></article>
+          <article class="music-card cover-one"><div class="cover-art"><button class="cover-play" id="trendPlayOne" aria-label="Open anime 1">▶</button></div><b>Anime Spotlight 01</b><small>Adventure · Fantasy</small></article>
+          <article class="music-card cover-two"><div class="cover-art"><button class="cover-play" id="trendPlayTwo" aria-label="Open anime 2">▶</button></div><b>Anime Spotlight 02</b><small>Action · Drama</small></article>
+          <article class="music-card cover-three"><div class="cover-art"><button class="cover-play" id="trendPlayThree" aria-label="Open anime 3">▶</button></div><b>Anime Spotlight 03</b><small>Fantasy · Mystery</small></article>
+          <article class="music-card cover-four"><div class="cover-art"><button class="cover-play" id="trendPlayFour" aria-label="Open anime 4">▶</button></div><b>Anime Spotlight 04</b><small>Slice of Life · Drama</small></article>
+          <article class="music-card cover-five"><div class="cover-art"><button class="cover-play" id="trendPlayFive" aria-label="Open anime 5">▶</button></div><b>Anime Spotlight 05</b><small>Sci-Fi · Adventure</small></article>
         </div>
       </section>
 
       <section class="content-section mood-section" id="homeSection" data-section="home discover">
-        <div class="section-heading"><h2>Browse by mood</h2><button class="text-link" data-view="discover">Show all</button></div>
+        <div class="section-heading"><h2>Explore by Genre</h2><button class="text-link" data-view="discover">Show all</button></div>
         <div class="mood-grid">
-          <button class="mood-card mood-chill" data-mood="Chill"><b>Chill</b><small>Relax & unwind</small></button>
-          <button class="mood-card mood-focus" data-mood="Focus"><b>Focus</b><small>Study & work</small></button>
-          <button class="mood-card mood-energy" data-mood="Energy"><b>Energy</b><small>Feel the power</small></button>
-          <button class="mood-card mood-romantic" data-mood="Romantic"><b>Romantic</b><small>Love forever</small></button>
+          <button class="mood-card mood-chill" data-mood="Adventure"><b>Adventure</b><small>Discover new worlds</small></button>
+          <button class="mood-card mood-focus" data-mood="Mystery"><b>Mystery</b><small>Uncover the unknown</small></button>
+          <button class="mood-card mood-energy" data-mood="Action"><b>Action</b><small>Feel the excitement</small></button>
+          <button class="mood-card mood-romantic" data-mood="Romance"><b>Romance</b><small>Stories from the heart</small></button>
         </div>
       </section>
 
       <section class="content-section tracks-section" data-section="home library favorites recent playlists search">
-        <div class="section-heading"><h2 id="trackHeading">Your music</h2><button class="text-link" id="addTracks">＋ Add music</button></div><p class="library-note">Choose audio files from your phone. Your library is saved in this browser on this device; files are not uploaded.</p>
-        <div class="empty-state" id="emptyState"><div class="empty-art">♫</div><h3>Your music starts here</h3><p>Add audio files from your device to start listening.</p><button class="green-btn" id="emptyUpload">Choose audio files</button></div>
+        <div class="section-heading"><h2 id="trackHeading">Your Anime</h2><button class="text-link" id="addTracks">＋ Add to library</button></div><p class="library-note">Anime catalog preview. Streaming episodes and account features are not connected yet.</p>
+        <div class="empty-state" id="emptyState"><div class="empty-art">✦</div><h3>Your anime journey starts here</h3><p>Explore anime collections and save your favourites.</p><button class="green-btn" id="emptyUpload">Explore collection</button></div>
         <div class="track-list" id="trackList" hidden></div>
       </section>
 
-      <section class="library-panel" data-section="library"><div class="section-heading"><h2>Your library</h2></div><div class="stat-row"><span>Tracks added</span><b id="statTracks">0</b></div><div class="stat-row"><span>Liked songs</span><b id="statLikedCount">0</b></div><div class="library-progress"><span id="libraryProgress"></span></div></section>
-      <footer data-section="home"><b>SOLO MUSIC</b><span>YOUR MUSIC. YOUR WORLD.</span></footer>
+      <section class="library-panel" data-section="library"><div class="section-heading"><h2>Your Library</h2></div><div class="stat-row"><span>Saved titles</span><b id="statTracks">0</b></div><div class="stat-row"><span>Watchlist titles</span><b id="statLikedCount">0</b></div><div class="library-progress"><span id="libraryProgress"></span></div></section>
+      <footer data-section="home"><b>ANIME WORLD</b><span>ENTER YOUR ANIME UNIVERSE.</span></footer>
     </div>
   </main>
 </div>
 
-<nav class="mobile-nav" aria-label="Mobile navigation"><button class="active" data-view="home"><span>⌂</span>Home</button><button data-view="search"><span>⌕</span>Search</button><button data-view="favorites"><span>♥</span>Liked</button><button data-view="recent"><span>◷</span>Recent</button></nav>
+<nav class="mobile-nav" aria-label="Mobile navigation"><button class="active" data-view="home"><span>⌂</span>Home</button><button data-view="search"><span>⌕</span>Search</button><button data-view="favorites"><span>♥</span>Watchlist</button><button data-view="recent"><span>◷</span>Recent</button></nav>
 <div class="player-bar">
-  <div class="now-playing"><div class="mini-cover" id="miniCover">♫</div><div class="now-meta"><b id="nowTitle">Nothing playing</b><span id="nowArtist">Add a track to begin</span></div><button class="like-btn" id="playerLike" aria-label="Like current track">♡</button></div>
-  <div class="player-center"><div class="player-controls"><button class="control-btn" id="shuffleBtn" aria-label="Shuffle">⤨</button><button class="control-btn" id="prevBtn" aria-label="Previous track">|‹</button><button class="play-btn" id="playBtn" aria-label="Play">▶</button><button class="control-btn" id="nextBtn" aria-label="Next track">›|</button><button class="control-btn" id="repeatBtn" aria-label="Repeat">⟳</button></div><div class="progress-row"><span id="currentTime">0:00</span><input type="range" id="seekBar" min="0" max="100" value="0" aria-label="Seek through track"><span id="duration">0:00</span></div></div>
+  <div class="now-playing"><div class="mini-cover" id="miniCover">✦</div><div class="now-meta"><b id="nowTitle">Nothing playing</b><span id="nowArtist">Explore anime to begin</span></div><button class="like-btn" id="playerLike" aria-label="Save current title">♡</button></div>
+  <div class="player-center"><div class="player-controls"><button class="control-btn" id="shuffleBtn" aria-label="Shuffle">⤨</button><button class="control-btn" id="prevBtn" aria-label="Previous">|‹</button><button class="play-btn" id="playBtn" aria-label="Play">▶</button><button class="control-btn" id="nextBtn" aria-label="Next">›|</button><button class="control-btn" id="repeatBtn" aria-label="Repeat">⟳</button></div><div class="progress-row"><span id="currentTime">0:00</span><input type="range" id="seekBar" min="0" max="100" value="0" aria-label="Seek"><span id="duration">0:00</span></div></div>
   <div class="player-extra"><span class="volume-icon">◖</span><input type="range" id="volumeBar" min="0" max="1" step="0.01" value="0.8" aria-label="Volume"><button class="queue-btn" id="queueBtn" title="Show queue">☷</button><button class="expand-btn" id="expandBtn" aria-label="Expand player">⛶</button></div>
 </div>
 <input type="file" id="audioInput" accept="audio/*" multiple hidden>
